@@ -64,6 +64,24 @@ export const AdminDashboard: React.FC = () => {
   const [settingsForm, setSettingsForm] = useState(settings);
   const [settingsSaved, setSettingsSaved] = useState(false);
 
+  // Supabase Sync States
+  const [isSyncingSupabase, setIsSyncingSupabase] = useState(false);
+  const [supabaseSyncResult, setSupabaseSyncResult] = useState<any>(null);
+
+  const handleRunSupabaseSync = async () => {
+    setIsSyncingSupabase(true);
+    setSupabaseSyncResult(null);
+    try {
+      const res = await fetch('/api/supabase/sync', { method: 'POST' });
+      const data = await res.json();
+      setSupabaseSyncResult(data);
+    } catch (err: any) {
+      setSupabaseSyncResult({ error: err?.message || 'Sync failed' });
+    } finally {
+      setIsSyncingSupabase(false);
+    }
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
@@ -902,21 +920,43 @@ export const AdminDashboard: React.FC = () => {
 
                 <button
                   type="button"
-                  onClick={async () => {
-                    try {
-                      const res = await fetch('/api/supabase/sync', { method: 'POST' });
-                      const data = await res.json();
-                      alert(`تمت مزامنة ${data.total || 0} فواتير مع حساب سوبابيز بنجاح!`);
-                    } catch (e) {
-                      alert('تم إرسال أمر المزامنة لسوبابيز.');
-                    }
-                  }}
-                  className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-2 self-start sm:self-auto"
+                  disabled={isSyncingSupabase}
+                  onClick={handleRunSupabaseSync}
+                  className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 disabled:opacity-50 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-2 self-start sm:self-auto"
                 >
                   <Database className="w-4 h-4" />
-                  <span>{language === 'ar' ? 'مزامنة كافة الفواتير مع Supabase الآن' : 'Sync All Invoices to Supabase'}</span>
+                  <span>{isSyncingSupabase ? 'جاري المزامنة مع سوبابيز...' : (language === 'ar' ? 'مزامنة كافة الفواتير مع Supabase الآن' : 'Sync All Invoices to Supabase')}</span>
                 </button>
               </div>
+
+              {/* Live Sync Result Notification */}
+              {supabaseSyncResult && (
+                <div className={`p-4 rounded-xl border text-xs ${
+                  supabaseSyncResult.failCount === 0 && supabaseSyncResult.total > 0
+                    ? 'bg-emerald-900/60 border-emerald-500 text-emerald-200'
+                    : 'bg-rose-950/80 border-rose-500/80 text-rose-200'
+                }`}>
+                  <p className="font-bold flex items-center gap-1.5">
+                    {supabaseSyncResult.failCount === 0 && supabaseSyncResult.total > 0 ? (
+                      <>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <span>تمت مزامنة {supabaseSyncResult.successCount} فواتير مع جدول invoices في سوبابيز بنجاح!</span>
+                      </>
+                    ) : (
+                      <>
+                        <AlertTriangle className="w-4 h-4 text-rose-400" />
+                        <span>تنبيه سوبابيز: {supabaseSyncResult.lastError || 'حدث خطأ أثناء الإرسال'}</span>
+                      </>
+                    )}
+                  </p>
+                  {supabaseSyncResult.lastError?.includes('row-level security') && (
+                    <div className="mt-2 p-2 bg-rose-900/80 rounded-lg text-[11px] text-white">
+                      💡 <strong>سبب عدم ظهور الطلبات في سوبابيز:</strong> جدول invoices مفعل عليه نظام حماية الصفوف (RLS) ويمنع الإضافة من المفتاح العام.
+                      شاهد الحل البسيط بالأسفل لتعطيل RLS بضغطة واحدة.
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                 <div className="bg-white/5 rounded-xl p-3 border border-white/10">
@@ -932,6 +972,39 @@ export const AdminDashboard: React.FC = () => {
                   <span className="font-bold text-white text-xs">عند كل طلب جديد فورياً</span>
                 </div>
               </div>
+            </div>
+
+            {/* CRITICAL RLS FIX CARD */}
+            <div className="bg-amber-50 rounded-2xl p-5 border-2 border-amber-300 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-start gap-2.5">
+                  <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">
+                      حل مشكلة عدم ظهور الفواتير في سوبابيز (RLS Policy Fix)
+                    </h4>
+                    <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                      سوبابيز يفعل حماية (Row Level Security) تلقائياً مما يمنع إضافة الصفوف الجديدة. قم بنسخ هذا الأمر وتشغيله في <strong>SQL Editor</strong> داخل سوبابيز للسماح بالحفظ الفوري:
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const rlsFix = `ALTER TABLE invoices DISABLE ROW LEVEL SECURITY;`;
+                    navigator.clipboard.writeText(rlsFix);
+                    alert('تم نسخ أمر فك الحماية إلى الحافظة!');
+                  }}
+                  className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-xs transition-colors shrink-0"
+                >
+                  نسخ أمر فك الحماية RLS
+                </button>
+              </div>
+
+              <pre className="bg-slate-900 text-amber-300 p-3 rounded-xl text-xs font-mono border border-slate-800 text-start" dir="ltr">
+                ALTER TABLE invoices DISABLE ROW LEVEL SECURITY;
+              </pre>
             </div>
 
             {/* SQL Table Schema Generator */}

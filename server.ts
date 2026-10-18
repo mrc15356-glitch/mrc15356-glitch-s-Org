@@ -441,12 +441,26 @@ app.get('/api/supabase/status', async (req: Request, res: Response) => {
 
 app.post('/api/supabase/sync', async (req: Request, res: Response) => {
   const results = [];
+  let successCount = 0;
+  let failCount = 0;
+  let lastError = null;
+
   for (const ord of store.orders) {
     const resSync = await saveInvoiceToSupabase(ord);
+    if (resSync.success) {
+      successCount++;
+    } else {
+      failCount++;
+      lastError = resSync.error;
+    }
     results.push({ ref: ord.referenceNumber, ...resSync });
   }
+
   res.json({
     total: store.orders.length,
+    successCount,
+    failCount,
+    lastError,
     results,
   });
 });
