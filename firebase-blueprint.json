@@ -1,0 +1,96 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Paint product item in Markaz Almalak Paint Shop catalog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "nameAr": { "type": "string", "maxLength": 200 },
+        "nameEn": { "type": "string", "maxLength": 200 },
+        "categoryId": { "type": "string", "maxLength": 100 },
+        "categoryNameAr": { "type": "string", "maxLength": 100 },
+        "categoryNameEn": { "type": "string", "maxLength": 100 },
+        "brand": { "type": "string", "maxLength": 100 },
+        "descriptionAr": { "type": "string", "maxLength": 1000 },
+        "descriptionEn": { "type": "string", "maxLength": 1000 },
+        "image": { "type": "string", "maxLength": 1000 },
+        "basePrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "coverage": { "type": "string", "maxLength": 100 },
+        "dryTime": { "type": "string", "maxLength": 100 },
+        "finish": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["nameAr", "basePrice", "categoryId", "brand"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer paint purchase or booking order",
+      "type": "object",
+      "properties": {
+        "referenceNumber": { "type": "string", "maxLength": 50 },
+        "customerFullName": { "type": "string", "maxLength": 150 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "customerWhatsapp": { "type": "string", "maxLength": 30 },
+        "city": { "type": "string", "maxLength": 50 },
+        "district": { "type": "string", "maxLength": 100 },
+        "deliveryAddress": { "type": "string", "maxLength": 300 },
+        "deliveryMethod": { "type": "string", "enum": ["home_delivery", "store_pickup"] },
+        "paymentMethod": { "type": "string", "enum": ["cod", "bank_transfer", "online_card"] },
+        "subtotal": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "processing", "ready", "delivered", "cancelled"] }
+      },
+      "required": ["referenceNumber", "customerFullName", "customerPhone", "totalAmount", "status"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Paint category definition",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "nameAr": { "type": "string", "maxLength": 100 },
+        "nameEn": { "type": "string", "maxLength": 100 },
+        "descriptionAr": { "type": "string", "maxLength": 500 },
+        "descriptionEn": { "type": "string", "maxLength": 500 },
+        "iconName": { "type": "string", "maxLength": 50 },
+        "image": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["id", "nameAr", "nameEn"]
+    },
+    "Setting": {
+      "title": "Setting",
+      "description": "Shop settings and contact info in Taif",
+      "type": "object",
+      "properties": {
+        "shopNameAr": { "type": "string", "maxLength": 150 },
+        "taxNumber": { "type": "string", "maxLength": 50 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "addressAr": { "type": "string", "maxLength": 300 },
+        "deliveryFee": { "type": "number" },
+        "freeDeliveryThreshold": { "type": "number" }
+      },
+      "required": ["shopNameAr", "taxNumber", "phone", "whatsapp"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Paint products catalog and stock"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer order records and status tracking"
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Paint product categories"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Setting" },
+      "description": "Store configuration parameters"
+    }
+  }
+}

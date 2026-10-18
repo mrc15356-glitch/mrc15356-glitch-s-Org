@@ -1,0 +1,1119 @@
+{
+  "products": [
+    {
+      "id": "p-1",
+      "nameAr": "دهان رويال فينوماستيك حريري فائق النعومة",
+      "nameEn": "Fenomastic Pure Silk Interior Paint",
+      "categoryId": "interior-paints",
+      "categoryNameAr": "دهانات الجدران الداخلية",
+      "categoryNameEn": "Interior Wall Paints",
+      "brand": "جوتن (Jotun)",
+      "descriptionAr": "دهان داخلي مائي فاخر بلمسة حريرية أنيقة، قابل للغسيل المتكرر، مقاوم للبقع والاصفرار، بدون رائحة تقريباً وصديق للبيئة.",
+      "descriptionEn": "Premium water-based interior paint offering a rich silky sheen, superior washability, and true color accuracy.",
+      "image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "1L",
+          "labelAr": "1 لتر (علبة صغيرة)",
+          "labelEn": "1 Liter",
+          "price": 48,
+          "inStock": true
+        },
+        {
+          "size": "4L",
+          "labelAr": "4 لتر (جالون قياسي)",
+          "labelEn": "4 Liters (Gallon)",
+          "price": 165,
+          "inStock": true
+        },
+        {
+          "size": "9L",
+          "labelAr": "9 لتر (نصف برميل)",
+          "labelEn": "9 Liters",
+          "price": 340,
+          "inStock": true
+        },
+        {
+          "size": "18L",
+          "labelAr": "18 لتر (برميل كبير)",
+          "labelEn": "18 Liters (Drum)",
+          "price": 620,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أوف وايت نقي",
+          "nameEn": "Pure Off-White",
+          "hex": "#FAF9F6",
+          "code": "ALM-101"
+        },
+        {
+          "nameAr": "رمادي لؤلؤي",
+          "nameEn": "Pearl Gray",
+          "hex": "#E2E5E8",
+          "code": "ALM-204"
+        },
+        {
+          "nameAr": "بيج صحراوي دافئ",
+          "nameEn": "Desert Sand Dune",
+          "hex": "#EAD7BA",
+          "code": "ALM-305"
+        },
+        {
+          "nameAr": "رمادي دخاني مودرن",
+          "nameEn": "Smoke Modern Gray",
+          "hex": "#A8B2BA",
+          "code": "ALM-410"
+        },
+        {
+          "nameAr": "أزرق ملكي فاخر",
+          "nameEn": "Royal Malak Blue",
+          "hex": "#1E3A8A",
+          "code": "ALM-501"
+        },
+        {
+          "nameAr": "أخضر ميرمية هادئ",
+          "nameEn": "Sage Green Tranquility",
+          "hex": "#9CAF88",
+          "code": "ALM-608"
+        },
+        {
+          "nameAr": "كشمير ناعم",
+          "nameEn": "Soft Cashmere",
+          "hex": "#DFCFBE",
+          "code": "ALM-712"
+        },
+        {
+          "nameAr": "ذهبي كلاسيك",
+          "nameEn": "Classic Royal Gold",
+          "hex": "#D4AF37",
+          "code": "ALM-888"
+        }
+      ],
+      "basePrice": 165,
+      "rating": 4.9,
+      "reviewsCount": 38,
+      "coverage": "12-14 م² / لتر",
+      "dryTime": "ساعتان للجفاف السطحي",
+      "finish": "حريري ناعم (Silk)",
+      "isBestSeller": true,
+      "stock": 45,
+      "isDemo": true
+    },
+    {
+      "id": "p-2",
+      "nameAr": "رشة بروفايل خارجية حبيبات متدرجة فاخرة",
+      "nameEn": "Royal Exterior Profile Textured Coating",
+      "categoryId": "exterior-paints",
+      "categoryNameAr": "دهانات ورشات الواجهات الخارجية",
+      "categoryNameEn": "Exterior Wall Paints",
+      "brand": "مركز المالك (Al-Malak)",
+      "descriptionAr": "رشة واجهات بروفايل محببة فائقة المتانة، مخصصة لمناخ الطائف والمنطقة الغربية، مقاومة للحرارة والأشعة فوق البنفسجية وتغير العوامل الجوية.",
+      "descriptionEn": "High-build exterior textured profile finish engineered to withstand harsh Saudi sun, heat, and rain cycles.",
+      "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "18L",
+          "labelAr": "18 لتر (برميل واجهات)",
+          "labelEn": "18 Liters Drum",
+          "price": 195,
+          "inStock": true
+        },
+        {
+          "size": "25kg",
+          "labelAr": "كيس 25 كجم (خلطة بودرة جاهزة)",
+          "labelEn": "25kg Bag",
+          "price": 140,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "بيج بروفايل حجري",
+          "nameEn": "Stone Sand Profile",
+          "hex": "#E0D4BA",
+          "code": "EXT-01"
+        },
+        {
+          "nameAr": "أبيض شيد ناصع",
+          "nameEn": "Crisp White Profile",
+          "hex": "#F4F4F4",
+          "code": "EXT-02"
+        },
+        {
+          "nameAr": "طيني صحراوي",
+          "nameEn": "Terracotta Desert",
+          "hex": "#C29875",
+          "code": "EXT-03"
+        },
+        {
+          "nameAr": "رمادي صخري",
+          "nameEn": "Rock Mountain Gray",
+          "hex": "#8F9489",
+          "code": "EXT-04"
+        }
+      ],
+      "basePrice": 195,
+      "rating": 4.8,
+      "reviewsCount": 29,
+      "coverage": "6-8 م² / برميل حسب سماكة الحبيبات",
+      "dryTime": "4-6 ساعات",
+      "finish": "محبب خشن (Heavy Texture)",
+      "isBestSeller": true,
+      "isSpecialOffer": true,
+      "discountPercent": 15,
+      "stock": 60,
+      "isDemo": true
+    },
+    {
+      "id": "p-3",
+      "nameAr": "دهان جوتاشيلد إكستريم واجهات واقية 100% أكريليك",
+      "nameEn": "Jotashield Extreme Exterior Paint",
+      "categoryId": "exterior-paints",
+      "categoryNameAr": "دهانات ورشات الواجهات الخارجية",
+      "categoryNameEn": "Exterior Wall Paints",
+      "brand": "جوتن (Jotun)",
+      "descriptionAr": "دهان واجهات عاكس للحرارة يقلل من استهلاك التكييف، يحمي المبنى من تراكم الأتربة والرطوبة ويحافظ على بهاء الألوان لسنوات عديدة.",
+      "descriptionEn": "Heat-reflective exterior acrylic paint delivering maximum UV protection and dirt resistance for building facades.",
+      "image": "https://images.unsplash.com/photo-1574739782594-db4ead022697?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "4L",
+          "labelAr": "4 لتر (جالون)",
+          "labelEn": "4 Liters",
+          "price": 185,
+          "inStock": true
+        },
+        {
+          "size": "18L",
+          "labelAr": "18 لتر (برميل)",
+          "labelEn": "18 Liters",
+          "price": 690,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أوف وايت نقي",
+          "nameEn": "Pure Off-White",
+          "hex": "#FAF9F6",
+          "code": "ALM-101"
+        },
+        {
+          "nameAr": "رمادي لؤلؤي",
+          "nameEn": "Pearl Gray",
+          "hex": "#E2E5E8",
+          "code": "ALM-204"
+        },
+        {
+          "nameAr": "بيج صحراوي دافئ",
+          "nameEn": "Desert Sand Dune",
+          "hex": "#EAD7BA",
+          "code": "ALM-305"
+        },
+        {
+          "nameAr": "رمادي دخاني مودرن",
+          "nameEn": "Smoke Modern Gray",
+          "hex": "#A8B2BA",
+          "code": "ALM-410"
+        },
+        {
+          "nameAr": "أزرق ملكي فاخر",
+          "nameEn": "Royal Malak Blue",
+          "hex": "#1E3A8A",
+          "code": "ALM-501"
+        }
+      ],
+      "basePrice": 185,
+      "rating": 4.9,
+      "reviewsCount": 19,
+      "coverage": "10-12 م² / لتر",
+      "dryTime": "3 ساعات",
+      "finish": "مطفي ناعم عاكس للحرارة",
+      "isBestSeller": false,
+      "stock": 25,
+      "isDemo": true
+    },
+    {
+      "id": "p-4",
+      "nameAr": "دهان الجزيرة نوفل مقاوم للبكتيريا مطفي أنيق",
+      "nameEn": "Al-Jazeera Novel Matt Antibacterial Paint",
+      "categoryId": "interior-paints",
+      "categoryNameAr": "دهانات الجدران الداخلية",
+      "categoryNameEn": "Interior Wall Paints",
+      "brand": "دهانات الجزيرة (Al-Jazeera)",
+      "descriptionAr": "دهان مائي عالي الجودة خالي من المركبات العضوية المتطايرة، يعطي تشطيباً مطفياً مخملياً عميقاً يغطي عيوب الجدار بانسيابية تامة.",
+      "descriptionEn": "Zero-VOC interior antibacterial matt emulsion providing a luxurious, chalk-free velvet surface.",
+      "image": "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "1L",
+          "labelAr": "1 لتر",
+          "labelEn": "1 Liter",
+          "price": 42,
+          "inStock": true
+        },
+        {
+          "size": "4L",
+          "labelAr": "4 لتر (جالون)",
+          "labelEn": "4 Liters",
+          "price": 145,
+          "inStock": true
+        },
+        {
+          "size": "18L",
+          "labelAr": "18 لتر (برميل)",
+          "labelEn": "18 Liters",
+          "price": 540,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أوف وايت نقي",
+          "nameEn": "Pure Off-White",
+          "hex": "#FAF9F6",
+          "code": "ALM-101"
+        },
+        {
+          "nameAr": "رمادي لؤلؤي",
+          "nameEn": "Pearl Gray",
+          "hex": "#E2E5E8",
+          "code": "ALM-204"
+        },
+        {
+          "nameAr": "بيج صحراوي دافئ",
+          "nameEn": "Desert Sand Dune",
+          "hex": "#EAD7BA",
+          "code": "ALM-305"
+        },
+        {
+          "nameAr": "رمادي دخاني مودرن",
+          "nameEn": "Smoke Modern Gray",
+          "hex": "#A8B2BA",
+          "code": "ALM-410"
+        },
+        {
+          "nameAr": "أزرق ملكي فاخر",
+          "nameEn": "Royal Malak Blue",
+          "hex": "#1E3A8A",
+          "code": "ALM-501"
+        },
+        {
+          "nameAr": "أخضر ميرمية هادئ",
+          "nameEn": "Sage Green Tranquility",
+          "hex": "#9CAF88",
+          "code": "ALM-608"
+        },
+        {
+          "nameAr": "كشمير ناعم",
+          "nameEn": "Soft Cashmere",
+          "hex": "#DFCFBE",
+          "code": "ALM-712"
+        },
+        {
+          "nameAr": "ذهبي كلاسيك",
+          "nameEn": "Classic Royal Gold",
+          "hex": "#D4AF37",
+          "code": "ALM-888"
+        }
+      ],
+      "basePrice": 145,
+      "rating": 4.7,
+      "reviewsCount": 22,
+      "coverage": "13-15 م² / لتر",
+      "dryTime": "ساعتان",
+      "finish": "مطفي كامل (Full Matt)",
+      "stock": 35,
+      "isDemo": true
+    },
+    {
+      "id": "p-5",
+      "nameAr": "معجون وفلفت ديكوري شامواه لمسات قصر ملكية",
+      "nameEn": "Royal Velvet Suede Decorative Paint",
+      "categoryId": "decorative-paints",
+      "categoryNameAr": "الدهانات الديكورية وورق الحائط",
+      "categoryNameEn": "Decorative Paints & Wallpapers",
+      "brand": "مركز المالك (Al-Malak)",
+      "descriptionAr": "دهان ديكوري فاخر بتأثير القماش المخملي والحرير الإيطالي، ينعكس مع الإضاءة ليعطي عمقاً وفخامة في المجالس والصالونات وغرف النوم.",
+      "descriptionEn": "Italian-style decorative velvet coating with pearlescent undertones for luxury majlis and accent walls.",
+      "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "1L",
+          "labelAr": "1 لتر عينة",
+          "labelEn": "1 Liter",
+          "price": 75,
+          "inStock": true
+        },
+        {
+          "size": "4L",
+          "labelAr": "4 لتر جالون ديكوري",
+          "labelEn": "4 Liters",
+          "price": 260,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "ذهبي شامبين ملكي",
+          "nameEn": "Royal Champagne Gold",
+          "hex": "#D7C49E",
+          "code": "DEC-01"
+        },
+        {
+          "nameAr": "رمادي بلاتيني مخملي",
+          "nameEn": "Velvet Platinum",
+          "hex": "#B8B9B7",
+          "code": "DEC-02"
+        },
+        {
+          "nameAr": "برونزي ملكي ناعم",
+          "nameEn": "Warm Bronze Elegance",
+          "hex": "#A3805D",
+          "code": "DEC-03"
+        },
+        {
+          "nameAr": "أزرق كحلي ملوكي",
+          "nameEn": "Royal Sapphire Velvet",
+          "hex": "#1C2E4A",
+          "code": "DEC-04"
+        }
+      ],
+      "basePrice": 260,
+      "rating": 5,
+      "reviewsCount": 42,
+      "coverage": "5-7 م² / لتر على طبقتين",
+      "dryTime": "4 ساعات",
+      "finish": "مخملي لؤلؤي (Velvet Sheen)",
+      "isBestSeller": true,
+      "stock": 18,
+      "isDemo": true
+    },
+    {
+      "id": "p-6",
+      "nameAr": "ورق حائط مودرن كلاسيك مجسم مقاوم للرطوبة (رول)",
+      "nameEn": "Modern Textured 3D Luxury Wallpaper Roll",
+      "categoryId": "decorative-paints",
+      "categoryNameAr": "الدهانات الديكورية وورق الحائط",
+      "categoryNameEn": "Decorative Paints & Wallpapers",
+      "brand": "مركز المالك (Al-Malak)",
+      "descriptionAr": "رول ورق حائط فينيل عالي السماكة منقوش بنقشات هندسية وكلاسيكية مذهبة، سهل التنظيف ومقاوم للرطوبة والتمزق، العرض 0.53م والطول 10م (5.3 م²).",
+      "descriptionEn": "Heavyweight vinyl textured wallpaper with subtle gold embossing. Washable and moisture-resistant.",
+      "image": "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "Roll-5.3m2",
+          "labelAr": "رول كامل (10م × 0.53م)",
+          "labelEn": "Single Roll (10m x 0.53m)",
+          "price": 120,
+          "inStock": true
+        },
+        {
+          "size": "Pack-3Rolls",
+          "labelAr": "بكج 3 رولات مع غراء مجاني",
+          "labelEn": "3 Rolls Bundle + Free Glue",
+          "price": 320,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أبيض رمادي مزخرف",
+          "nameEn": "Damask Silver White",
+          "hex": "#ECEAE6",
+          "code": "WP-01"
+        },
+        {
+          "nameAr": "بيج ذهبي ملوكي",
+          "nameEn": "Imperial Gold Beige",
+          "hex": "#DFCBB5",
+          "code": "WP-02"
+        },
+        {
+          "nameAr": "رخامي رمادي داكن",
+          "nameEn": "Dark Marble Pattern",
+          "hex": "#7D8083",
+          "code": "WP-03"
+        }
+      ],
+      "basePrice": 120,
+      "rating": 4.8,
+      "reviewsCount": 15,
+      "coverage": "5.3 م² لكل رول",
+      "dryTime": "جفاف الغراء 24 ساعة",
+      "finish": "فينيل بارز مجسم (Embossed Vinyl)",
+      "stock": 30,
+      "isDemo": true
+    },
+    {
+      "id": "p-7",
+      "nameAr": "أساس مائي مانع للقلويات وبرايمر تثبيت عميق",
+      "nameEn": "Alkali-Resistant Water-Based Sealer Primer",
+      "categoryId": "primers-sealers",
+      "categoryNameAr": "أساسات وبرايمر التثبيت",
+      "categoryNameEn": "Primers and Sealers",
+      "brand": "جوتن (Jotun)",
+      "descriptionAr": "برايمر تأسيس عالي النفاذية يخترق مسامات اللياسة والخرسانة والجبس، يمنع امتصاص الدهان ويمنع تسرب الأملاح والقلويات إلى السطح النهائي.",
+      "descriptionEn": "Deep penetrating alkali-resistant acrylic primer sealer. Locks porous plaster and maximizes topcoat longevity.",
+      "image": "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "4L",
+          "labelAr": "4 لتر (جالون)",
+          "labelEn": "4 Liters",
+          "price": 65,
+          "inStock": true
+        },
+        {
+          "size": "18L",
+          "labelAr": "18 لتر (برميل)",
+          "labelEn": "18 Liters",
+          "price": 220,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أبيض أساس",
+          "nameEn": "Primer White",
+          "hex": "#FFFFFF",
+          "code": "PRM-W"
+        },
+        {
+          "nameAr": "شفاف اختراق",
+          "nameEn": "Clear Penetrating",
+          "hex": "#F0F0F0",
+          "code": "PRM-C"
+        }
+      ],
+      "basePrice": 65,
+      "rating": 4.9,
+      "reviewsCount": 31,
+      "coverage": "10-12 م² / لتر",
+      "dryTime": "ساعة واحدة",
+      "finish": "طبقة أساس عازلة",
+      "stock": 50,
+      "isDemo": true
+    },
+    {
+      "id": "p-8",
+      "nameAr": "عازل أسطح مطاطي بولي يوريثان مائي أبيض عاكس للحرارة",
+      "nameEn": "Polyurethane Elastomeric Roof Waterproofing Membrane",
+      "categoryId": "waterproofing",
+      "categoryNameAr": "عوازل مائية وحرارية",
+      "categoryNameEn": "Waterproofing Products",
+      "brand": "سافيتو (Saveto)",
+      "descriptionAr": "عازل مطاطي سائل فائق المرونة بنسبة استطالة 300%، يغلق الشروخ والتصدعات في الأسطح الخرسانية والشينكو تماماً ويعكس حرارة الشمس بنسبة تصل إلى 85%.",
+      "descriptionEn": "Seamless liquid elastomeric PU roof sealant with 300% elasticity and 85% solar reflectance index.",
+      "image": "https://images.unsplash.com/photo-1541888946425-d0fbb186f5f7?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "4L",
+          "labelAr": "4 لتر (جالون)",
+          "labelEn": "4 Liters",
+          "price": 110,
+          "inStock": true
+        },
+        {
+          "size": "18L",
+          "labelAr": "18 لتر (برميل عزل أسطح)",
+          "labelEn": "18 Liters Drum",
+          "price": 380,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أبيض ناصع عاكس",
+          "nameEn": "Solar Reflective White",
+          "hex": "#FFFFFF",
+          "code": "WP-WHT"
+        },
+        {
+          "nameAr": "رمادي عوازل",
+          "nameEn": "Concrete Gray",
+          "hex": "#999999",
+          "code": "WP-GRY"
+        }
+      ],
+      "basePrice": 380,
+      "rating": 4.9,
+      "reviewsCount": 27,
+      "coverage": "1.2 - 1.5 كجم / م² للطبقتين مع الشاش",
+      "dryTime": "6 ساعات بين الطبقات",
+      "finish": "غشاء مطاطي سلس غير منفذ للماء",
+      "isBestSeller": true,
+      "stock": 40,
+      "isDemo": true
+    },
+    {
+      "id": "p-9",
+      "nameAr": "عازل أسمنتي بوليمري لخزانات المياه والمسابح والمطابخ",
+      "nameEn": "2-Component Cementitious Waterproofing Slurry",
+      "categoryId": "waterproofing",
+      "categoryNameAr": "عوازل مائية وحرارية",
+      "categoryNameEn": "Waterproofing Products",
+      "brand": "دهانات الجزيرة (Al-Jazeera)",
+      "descriptionAr": "عازل مائي مكون من مركبين (بودرة + سائل بوليمر) معتمد لمياه الشرب، يتحمل الضغط الإيجابي والسلبي في الخزانات والبيادر والأقبية.",
+      "descriptionEn": "Two-pack potable water certified cementitious slurry for underground tanks and wet areas.",
+      "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "20kg-Kit",
+          "labelAr": "طقم كامل 20 كجم (بودرة + جالون لاتكس)",
+          "labelEn": "20kg Complete Kit",
+          "price": 195,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "رمادي أسمنتي",
+          "nameEn": "Cement Gray",
+          "hex": "#777777",
+          "code": "WP-CEM"
+        }
+      ],
+      "basePrice": 195,
+      "rating": 4.8,
+      "reviewsCount": 18,
+      "coverage": "1.8 كجم / م² لسماكة 1 مم",
+      "dryTime": "24 ساعة للتصلب الأولي",
+      "finish": "طبقة أسمنتية متبلمرة صلبة",
+      "stock": 28,
+      "isDemo": true
+    },
+    {
+      "id": "p-10",
+      "nameAr": "بخاخ طلاء أكريليك سريع الجفاف عالي اللمعان 400 مل",
+      "nameEn": "Quick-Dry Acrylic Aerosol Spray Paint 400ml",
+      "categoryId": "spray-paints",
+      "categoryNameAr": "دهانات البخاخ والرذاذ",
+      "categoryNameEn": "Spray Paints",
+      "brand": "بوسني (Bosny / Rust-Oleum)",
+      "descriptionAr": "بخاخ دهان متميز لتجديد الأثاث، المصنوعات الحديدية، إطارات السيارات، والديكورات المنزلية، تغطية فورية ومقاومة للصدأ والتآكل.",
+      "descriptionEn": "All-purpose fast-drying spray lacquer suitable for metal, wood, automotive trim, and DIY crafts.",
+      "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "400ml",
+          "labelAr": "علبة بخاخ 400 مل",
+          "labelEn": "400ml Spray Can",
+          "price": 18,
+          "inStock": true
+        },
+        {
+          "size": "Box-6",
+          "labelAr": "كرتون 6 علب منوعة",
+          "labelEn": "Pack of 6 Cans",
+          "price": 95,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "ذهبي لامع ملكي",
+          "nameEn": "Royal Chrome Gold",
+          "hex": "#FFD700",
+          "code": "SP-GLD"
+        },
+        {
+          "nameAr": "أسود مطفي كربوني",
+          "nameEn": "Carbon Matte Black",
+          "hex": "#1C1C1C",
+          "code": "SP-BLK"
+        },
+        {
+          "nameAr": "كروم فضي مرآة",
+          "nameEn": "Mirror Chrome Silver",
+          "hex": "#DCDCDC",
+          "code": "SP-SLV"
+        },
+        {
+          "nameAr": "أبيض ناصع لامع",
+          "nameEn": "Gloss Pure White",
+          "hex": "#FFFFFF",
+          "code": "SP-WHT"
+        },
+        {
+          "nameAr": "أحمر ناري",
+          "nameEn": "Gloss Bright Red",
+          "hex": "#E60000",
+          "code": "SP-RED"
+        }
+      ],
+      "basePrice": 18,
+      "rating": 4.6,
+      "reviewsCount": 54,
+      "coverage": "1.5 - 2 م² للعلبة الواحدة",
+      "dryTime": "10 دقائق",
+      "finish": "لامع جداً / مطفي حسب اللون",
+      "stock": 120,
+      "isDemo": true
+    },
+    {
+      "id": "p-11",
+      "nameAr": "طقم رول دهان مايكروفايبر 9 بوصة احترافي مع يد تلسكوبية",
+      "nameEn": "Professional 9\" Microfiber Roller & Telescopic Pole Kit",
+      "categoryId": "brushes-rollers",
+      "categoryNameAr": "فراشي ورولات الدهان",
+      "categoryNameEn": "Paint Brushes and Rollers",
+      "brand": "أدوات المالك (Al-Malak Tools)",
+      "descriptionAr": "طقم رول احترافي بتقنية المايكروفايبر المانعة لتناثر قطرات الدهان، يمنح الجدار نعومة فائقة بدون خطوط، يأتي مع مقبض معدني مريح وعصا تمديد.",
+      "descriptionEn": "Lint-free 9-inch microfiber paint roller assembly engineered for smooth interior coverage with zero spatter.",
+      "image": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "Standard-9\"",
+          "labelAr": "رول كامل 9 بوصة مع المقبض",
+          "labelEn": "9\" Roller with Handle",
+          "price": 35,
+          "inStock": true
+        },
+        {
+          "size": "Kit-With-Pole",
+          "labelAr": "طقم كامل مع صينية وعصا 2 متر",
+          "labelEn": "Full Kit with Tray + 2m Extension",
+          "price": 65,
+          "inStock": true
+        }
+      ],
+      "colors": [],
+      "basePrice": 35,
+      "rating": 4.8,
+      "reviewsCount": 33,
+      "coverage": "أدوات استخدام متعدد",
+      "dryTime": "فوري",
+      "finish": "أدوات دهان",
+      "isBestSeller": true,
+      "stock": 75,
+      "isDemo": true
+    },
+    {
+      "id": "p-12",
+      "nameAr": "طقم فراشي دهان شعر طبيعي ناعم للحواف والزوايا (3 قطع)",
+      "nameEn": "3-Piece Natural Bristle Cutting-In Brush Set",
+      "categoryId": "brushes-rollers",
+      "categoryNameAr": "فراشي ورولات الدهان",
+      "categoryNameEn": "Paint Brushes and Rollers",
+      "brand": "مركز المالك (Al-Malak)",
+      "descriptionAr": "طقم يشمل 3 مقاسات (1 بوصة، 2 بوصة، 3 بوصة) لتحديد الزوايا وحواف الأبواب والجبس بورد بدقة متناهية دون تساقط الشعر.",
+      "descriptionEn": "Precision tapered natural bristle brushes (1\", 2\", 3\") for clean edge cut-ins and trim painting.",
+      "image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "Set-3Pcs",
+          "labelAr": "طقم 3 فراشي (1، 2، 3 بوصة)",
+          "labelEn": "3-Piece Set (1\", 2\", 3\")",
+          "price": 28,
+          "inStock": true
+        }
+      ],
+      "colors": [],
+      "basePrice": 28,
+      "rating": 4.7,
+      "reviewsCount": 20,
+      "coverage": "أدوات دهان",
+      "dryTime": "فوري",
+      "finish": "شعر طبيعي ناعم",
+      "stock": 90,
+      "isDemo": true
+    },
+    {
+      "id": "p-13",
+      "nameAr": "شريط لاصق ورقي أزرق ماسكينج تايب احترافي لحماية الحواف",
+      "nameEn": "Blue Clean-Peel Painter's Masking Tape (50m)",
+      "categoryId": "tools-accessories",
+      "categoryNameAr": "أدوات ومستلزمات الدهان",
+      "categoryNameEn": "Painting Tools & Accessories",
+      "brand": "3M / المالك",
+      "descriptionAr": "شريط لاصق خاص بأعمال الدهانات، يضمن خطوطاً حادة ومستقيمة عند التقاء الألوان، ولا يترك أي بقايا غراء أو يقشر الدهان عند إزالته.",
+      "descriptionEn": "UV-resistant painter tape creating sharp paint lines and leaving zero sticky residue up to 14 days.",
+      "image": "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "1-Roll-24mm",
+          "labelAr": "حبة واحدة (عرض 24 ملم × 50 م)",
+          "labelEn": "1 Roll (24mm x 50m)",
+          "price": 9,
+          "inStock": true
+        },
+        {
+          "size": "Pack-6-Rolls",
+          "labelAr": "بكت 6 حبات اقتصادي",
+          "labelEn": "Pack of 6 Rolls",
+          "price": 45,
+          "inStock": true
+        }
+      ],
+      "colors": [],
+      "basePrice": 9,
+      "rating": 4.9,
+      "reviewsCount": 61,
+      "coverage": "50 متر طولي للرول",
+      "dryTime": "فوري",
+      "finish": "لوازم حماية وتحديد",
+      "stock": 200,
+      "isDemo": true
+    },
+    {
+      "id": "p-14",
+      "nameAr": "معجون جوتن فينوماستيك داخلي جاهز للتطبيق والتنعيم",
+      "nameEn": "Fenomastic Interior Ready-Mix Wall Putty",
+      "categoryId": "putty-fillers",
+      "categoryNameAr": "معجون وفواصل الجدران",
+      "categoryNameEn": "Putty and Wall Fillers",
+      "brand": "جوتن (Jotun)",
+      "descriptionAr": "معجون مائي جاهز للاستخدام عالي الجودة لتنعيم وتسوية الجدران والأسقف الداخلية قبل الدهان النهائي، سهل السنفرة وقليل الغبار ومقاوم للانكماش.",
+      "descriptionEn": "Premium smooth-gliding ready-mix interior wall putty for flawless surface preparation before topcoating.",
+      "image": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "5kg",
+          "labelAr": "علبة 5 كجم",
+          "labelEn": "5kg Canister",
+          "price": 32,
+          "inStock": true
+        },
+        {
+          "size": "25kg",
+          "labelAr": "برميل 25 كجم كبير",
+          "labelEn": "25kg Bucket",
+          "price": 95,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أبيض ناعم",
+          "nameEn": "Bright White Putty",
+          "hex": "#FFFFFF",
+          "code": "PUT-01"
+        }
+      ],
+      "basePrice": 95,
+      "rating": 4.9,
+      "reviewsCount": 45,
+      "coverage": "1.2 - 1.5 كجم / م² حسب استواء السطح",
+      "dryTime": "3-4 ساعات قبل السنفرة",
+      "finish": "سطح أملس كالحرير",
+      "isBestSeller": true,
+      "stock": 65,
+      "isDemo": true
+    },
+    {
+      "id": "p-15",
+      "nameAr": "إيبوكسي أرضيات للمستودعات ومواقف السيارات عالي المقاومة",
+      "nameEn": "Heavy-Duty Industrial Floor Epoxy Coating (Kit)",
+      "categoryId": "industrial-paints",
+      "categoryNameAr": "دهانات صناعية وإيبوكسي",
+      "categoryNameEn": "Industrial Paints",
+      "brand": "الجزيرة (Al-Jazeera)",
+      "descriptionAr": "طلاء أرضيات إيبوكسي ذاتي التسوية مقاوم لأثقال الشاحنات والزيوت والشحوم والمواد الكيميائية، مثالي للورش والمستودعات والمواقف الأرضية والمستشفيات.",
+      "descriptionEn": "Solvent-free self-leveling floor epoxy offering superior abrasion, chemical, and forklift traffic resistance.",
+      "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "Kit-5kg",
+          "labelAr": "طقم 5 كجم (أساس + مقسي)",
+          "labelEn": "5kg Kit (Base + Hardener)",
+          "price": 180,
+          "inStock": true
+        },
+        {
+          "size": "Kit-20kg",
+          "labelAr": "طقم 20 كجم كبير للمستودعات",
+          "labelEn": "20kg Large Kit",
+          "price": 620,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "رمادي مواقف قياسي",
+          "nameEn": "Standard Car Park Gray",
+          "hex": "#8A929A",
+          "code": "EPX-01"
+        },
+        {
+          "nameAr": "أخضر صناعي للمصانع",
+          "nameEn": "Industrial Plant Green",
+          "hex": "#2E6F40",
+          "code": "EPX-02"
+        },
+        {
+          "nameAr": "أزرق ورش عمل",
+          "nameEn": "Workshop Deep Blue",
+          "hex": "#1F4788",
+          "code": "EPX-03"
+        }
+      ],
+      "basePrice": 180,
+      "rating": 4.8,
+      "reviewsCount": 16,
+      "coverage": "3-4 م² / كجم حسب السماكة المطلوبة",
+      "dryTime": "24 ساعة للمشي الخفيف، 7 أيام للتصلب الكامل",
+      "finish": "لامع عالي الصلابة مانع للانزلاق",
+      "stock": 22,
+      "isDemo": true
+    },
+    {
+      "id": "p-16",
+      "nameAr": "دهان حديد مضاد للصدأ برايمر أحمر أكسيد (جالون)",
+      "nameEn": "Red Oxide Anti-Rust Metal Primer Paint",
+      "categoryId": "industrial-paints",
+      "categoryNameAr": "دهانات صناعية وإيبوكسي",
+      "categoryNameEn": "Industrial Paints",
+      "brand": "ناشيونال (National Paints)",
+      "descriptionAr": "دهان زيتي تأسيسي مانع للصدأ للأبواب الحديدية، الدرابزين، المظلات، والهياكل المعدنية المعرضة للشمس والأمطار.",
+      "descriptionEn": "Alkyd-based red oxide rust-inhibitive primer protecting structural steel and iron works.",
+      "image": "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "sizes": [
+        {
+          "size": "1L",
+          "labelAr": "1 لتر علبة",
+          "labelEn": "1 Liter",
+          "price": 28,
+          "inStock": true
+        },
+        {
+          "size": "4L",
+          "labelAr": "4 لتر (جالون قياسي)",
+          "labelEn": "4 Liters (Gallon)",
+          "price": 92,
+          "inStock": true
+        }
+      ],
+      "colors": [
+        {
+          "nameAr": "أحمر أكسيد تقليدي",
+          "nameEn": "Classic Red Oxide",
+          "hex": "#8B2500",
+          "code": "RST-RED"
+        },
+        {
+          "nameAr": "رمادي صناعي",
+          "nameEn": "Industrial Zinc Gray",
+          "hex": "#666666",
+          "code": "RST-GRY"
+        }
+      ],
+      "basePrice": 92,
+      "rating": 4.7,
+      "reviewsCount": 23,
+      "coverage": "10-12 م² / لتر",
+      "dryTime": "4 ساعات",
+      "finish": "نصف مطفي مقاوم للتآكل",
+      "stock": 45,
+      "isDemo": true
+    }
+  ],
+  "categories": [
+    {
+      "id": "interior-paints",
+      "nameAr": "دهانات الجدران الداخلية",
+      "nameEn": "Interior Wall Paints",
+      "descriptionAr": "دهانات فاخرة غير قابلة للخدش، مطفية وحريرية ولامعة بألوان عصرية تدوم طويلاً",
+      "descriptionEn": "Luxury washable interior paints in matt, silk, and glossy finishes",
+      "iconName": "Paintbrush",
+      "image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "productCount": 12
+    },
+    {
+      "id": "exterior-paints",
+      "nameAr": "دهانات ورشات الواجهات الخارجية",
+      "nameEn": "Exterior Wall Paints",
+      "descriptionAr": "رشات بروفايل ودهانات مقاومة لأشعة الشمس والحرارة وأمطار الطائف",
+      "descriptionEn": "Weather-resistant exterior paints and textured profile coatings",
+      "iconName": "Home",
+      "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+      "productCount": 8
+    },
+    {
+      "id": "decorative-paints",
+      "nameAr": "الدهانات الديكورية وورق الحائط",
+      "nameEn": "Decorative Paints & Wallpapers",
+      "descriptionAr": "ستوكو رخامي، روعة، فلفت مخملي، وتشكيلة ورق حائط أوروبية فاخرة",
+      "descriptionEn": "Stucco marble, velvet finishes, metallic accents, and luxury wallpapers",
+      "iconName": "Sparkles",
+      "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+      "productCount": 9
+    },
+    {
+      "id": "primers-sealers",
+      "nameAr": "أساسات وبرايمر التثبيت",
+      "nameEn": "Primers and Sealers",
+      "descriptionAr": "برايمر مائي وزيتي قوي التغلغل لسد المسام وضمان ثبات اللون النهائي",
+      "descriptionEn": "Penetrating water & solvent-based primers for maximum paint adhesion",
+      "iconName": "Shield",
+      "image": "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80",
+      "productCount": 6
+    },
+    {
+      "id": "waterproofing",
+      "nameAr": "عوازل مائية وحرارية",
+      "nameEn": "Waterproofing Products",
+      "descriptionAr": "عزل بولي يوريثان ومطاطي للأسطح وخزانات المياه والمطابخ والحمامات",
+      "descriptionEn": "Polyurethane and cementitious waterproofing for roofs and tanks",
+      "iconName": "Droplets",
+      "image": "https://images.unsplash.com/photo-1541888946425-d0fbb186f5f7?auto=format&fit=crop&w=800&q=80",
+      "productCount": 7
+    },
+    {
+      "id": "spray-paints",
+      "nameAr": "دهانات البخاخ والرذاذ",
+      "nameEn": "Spray Paints",
+      "descriptionAr": "بخاخات سريعة الجفاف للمصنوعات المعدنية والخشب والديكورات",
+      "descriptionEn": "Quick-drying aerosol spray paints for metals, woods, and crafts",
+      "iconName": "SprayCan",
+      "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+      "productCount": 14
+    },
+    {
+      "id": "brushes-rollers",
+      "nameAr": "فراشي ورولات الدهان",
+      "nameEn": "Paint Brushes and Rollers",
+      "descriptionAr": "رولات مايكروفايبر احترافية، رولات بروفايل خشنة وفراشي شعر طبيعي ناعمة",
+      "descriptionEn": "Professional microfiber rollers, profile rollers, and fine bristle brushes",
+      "iconName": "PaintBucket",
+      "image": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=80",
+      "productCount": 11
+    },
+    {
+      "id": "tools-accessories",
+      "nameAr": "أدوات ومستلزمات الدهان",
+      "nameEn": "Painting Tools & Accessories",
+      "descriptionAr": "أشرطة ورقية للحماية، سكاكين معجون، صواني دهان، سلالم وسقالات عمل",
+      "descriptionEn": "Masking tapes, putty knives, paint trays, sandpaper, and gear",
+      "iconName": "Wrench",
+      "image": "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=800&q=80",
+      "productCount": 15
+    },
+    {
+      "id": "putty-fillers",
+      "nameAr": "معجون وفواصل الجدران",
+      "nameEn": "Putty and Wall Fillers",
+      "descriptionAr": "معجون جاهز داخلي وخارجي لمعالجة الشروخ وتسوية وتنعيم الأسطح",
+      "descriptionEn": "Ready-mix joint compound, crack fillers, and surface levelers",
+      "iconName": "Layers",
+      "image": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+      "productCount": 6
+    },
+    {
+      "id": "industrial-paints",
+      "nameAr": "دهانات صناعية وإيبوكسي",
+      "nameEn": "Industrial Paints",
+      "descriptionAr": "إيبوكسي أرضيات للمستودعات والمواقف، ودهانات حديد ومضادات صدأ شديدة التحمل",
+      "descriptionEn": "Heavy-duty floor epoxy, anticorrosive metal primers, and marine paints",
+      "iconName": "Hammer",
+      "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+      "productCount": 8
+    }
+  ],
+  "settings": {
+    "shopNameAr": "مركز المالك للدهانات",
+    "shopNameEn": "Markaz Almalak Paint Shop",
+    "taglineAr": "رشات داخلية وخارجية - ورق حائط | دهانات عالية الجودة لمساحات أجمل",
+    "taglineEn": "Interior & Exterior Coatings - Wallpapers | Quality Paints, Beautiful Spaces",
+    "taxNumber": "311056774700003",
+    "phone": "0581702837",
+    "whatsapp": "0581702837",
+    "addressAr": "الطائف - الشهداء الشمالية - شارع البحرين - بعد شركة زين مباشرة",
+    "addressEn": "Taif - Ash Shuhada Ash Shamaliyah - Bahrain St - Directly after Zain",
+    "cityAr": "الطائف، المملكة العربية السعودية",
+    "cityEn": "Taif, Saudi Arabia",
+    "workingHoursAr": "السبت - الخميس: 7:30 صباحاً - 10:30 مساءً | الجمعة: 4:00 عصراً - 10:30 مساءً",
+    "workingHoursEn": "Sat - Thu: 7:30 AM - 10:30 PM | Friday: 4:00 PM - 10:30 PM",
+    "deliveryFee": 25,
+    "freeDeliveryThreshold": 450,
+    "bankName": "مصرف الراجحي (Al Rajhi Bank)",
+    "bankAccountHolder": "مركز المالك للدهانات (Markaz Almalak)",
+    "iban": "SA8480000213608010123456"
+  },
+  "orders": [
+    {
+      "id": "ord_1792302495920_8991",
+      "referenceNumber": "MALAK-2026-8991",
+      "createdAt": "2026-10-18T05:48:15.920Z",
+      "customer": {
+        "fullName": "سعيد الغامدي",
+        "phone": "0589876543",
+        "whatsapp": "0589876543",
+        "city": "الطائف",
+        "district": "الشهداء الشمالية",
+        "address": "استلام من المحل - شارع البحرين"
+      },
+      "items": [
+        {
+          "productId": "p-2",
+          "productNameAr": "رشة بروفايل خارجية حبيبات متدرجة فاخرة",
+          "productNameEn": "Royal Exterior Profile Textured Coating",
+          "size": "18L",
+          "sizeLabelAr": "18L",
+          "sizeLabelEn": "18L",
+          "unitPrice": 195,
+          "quantity": 1,
+          "subtotal": 195
+        }
+      ],
+      "subtotal": 195,
+      "vatAmount": 25.43,
+      "deliveryFee": 0,
+      "totalAmount": 195,
+      "paymentMethod": "bank_transfer",
+      "paymentStatus": "pending",
+      "deliveryMethod": "store_pickup",
+      "status": "pending",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-18T05:48:15.920Z",
+          "note": "تم استلام وحجز الطلب بنجاح عبر المتجر الإلكتروني"
+        }
+      ]
+    },
+    {
+      "id": "ord_1792302272107_5580",
+      "referenceNumber": "MALAK-2026-5580",
+      "createdAt": "2026-10-18T05:44:32.107Z",
+      "customer": {
+        "fullName": "أحمد المالكي",
+        "phone": "0581234567",
+        "whatsapp": "0581234567",
+        "city": "الطائف",
+        "district": "شهار",
+        "address": "شارع الستين"
+      },
+      "items": [
+        {
+          "productId": "p-1",
+          "productNameAr": "دهان رويال فينوماستيك حريري فائق النعومة",
+          "productNameEn": "Fenomastic Pure Silk Interior Paint",
+          "size": "4L",
+          "sizeLabelAr": "4L",
+          "sizeLabelEn": "4L",
+          "unitPrice": 165,
+          "quantity": 2,
+          "subtotal": 330
+        }
+      ],
+      "subtotal": 330,
+      "vatAmount": 43.04,
+      "deliveryFee": 25,
+      "totalAmount": 355,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "deliveryMethod": "home_delivery",
+      "status": "pending",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-18T05:44:32.107Z",
+          "note": "تم استلام وحجز الطلب بنجاح عبر المتجر الإلكتروني"
+        }
+      ]
+    }
+  ]
+}

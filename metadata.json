@@ -1,0 +1,6 @@
+{
+  "name": "Markaz Almalak Paint Shop | مركز المالك للدهانات",
+  "description": "متجر مركز المالك للدهانات في الطائف - دهانات داخلية وخارجية، ديكورات، ورق حائط، وعوازل بأفضل الأسعار مع التوصيل وحساب الكميات.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

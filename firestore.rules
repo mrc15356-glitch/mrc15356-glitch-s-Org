@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all unknown paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Products collection: public read, admin write
+    match /products/{productId} {
+      allow read: if isValidId(productId);
+      allow create, update, delete: if isAdmin() && isValidId(productId);
+    }
+
+    // Categories collection: public read, admin write
+    match /categories/{categoryId} {
+      allow read: if isValidId(categoryId);
+      allow create, update, delete: if isAdmin() && isValidId(categoryId);
+    }
+
+    // Store settings: public read, admin write
+    match /settings/{settingId} {
+      allow read: if isValidId(settingId);
+      allow write: if isAdmin() && isValidId(settingId);
+    }
+
+    // Orders collection
+    // Customers can create an order with validation, admin can read/update all
+    match /orders/{orderId} {
+      allow create: if isValidId(orderId)
+        && incoming().keys().hasAll(['referenceNumber', 'customer', 'items', 'totalAmount', 'status'])
+        && incoming().status == 'pending'
+        && incoming().referenceNumber is string
+        && incoming().referenceNumber.size() <= 50;
+
+      allow get: if isValidId(orderId) && (isAdmin() || resource.data.referenceNumber == request.auth.uid);
+      allow list: if isAdmin();
+      allow update, delete: if isAdmin() && isValidId(orderId);
+    }
+
+    // Admin whitelist collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn() && request.auth.uid == adminId;
+      allow write: if false;
+    }
+  }
+}
