@@ -73,7 +73,7 @@ function saveStore(data: StoreData) {
 
 let store = loadStore();
 
-// Sync Order / Invoice to Supabase
+// Sync Order / Invoice to Supabase across all relevant tables
 async function saveInvoiceToSupabase(order: Order) {
   try {
     const payload = {
@@ -98,23 +98,54 @@ async function saveInvoiceToSupabase(order: Order) {
       created_at: order.createdAt || new Date().toISOString(),
     };
 
-    // Attempt upsert to 'invoices' table
-    const { data, error } = await supabase
+    let mainSaved = false;
+    let savedTable = '';
+    let mainError = '';
+
+    // 1. Primary table: 'invoices'
+    const resInvoices = await supabase
       .from('invoices')
       .upsert(payload, { onConflict: 'id' });
 
-    if (error) {
-      console.warn('Supabase [invoices] table note:', error.message);
-      // Fallback try 'orders' table
-      const fallback = await supabase
+    if (!resInvoices.error) {
+      mainSaved = true;
+      savedTable = 'invoices';
+    } else {
+      mainError = resInvoices.error.message;
+      console.warn('Supabase [invoices] insert note:', resInvoices.error.message);
+    }
+
+    // 2. Also attempt 'order_booking' table
+    try {
+      const resOrderBooking = await supabase
+        .from('order_booking')
+        .upsert(payload, { onConflict: 'id' });
+      if (!resOrderBooking.error && !mainSaved) {
+        mainSaved = true;
+        savedTable = 'order_booking';
+      }
+    } catch {
+      // optional table
+    }
+
+    // 3. Also attempt 'orders' table
+    try {
+      const resOrders = await supabase
         .from('orders')
         .upsert(payload, { onConflict: 'id' });
-      if (fallback.error) {
-        return { success: false, error: error.message };
+      if (!resOrders.error && !mainSaved) {
+        mainSaved = true;
+        savedTable = 'orders';
       }
-      return { success: true, table: 'orders' };
+    } catch {
+      // optional table
     }
-    return { success: true, table: 'invoices', data };
+
+    if (mainSaved) {
+      return { success: true, table: savedTable || 'invoices' };
+    } else {
+      return { success: false, error: mainError || 'Failed to insert to Supabase' };
+    }
   } catch (err: any) {
     console.error('Error saving invoice to Supabase:', err);
     return { success: false, error: err?.message || String(err) };

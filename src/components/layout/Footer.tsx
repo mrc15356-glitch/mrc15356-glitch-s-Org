@@ -245,7 +245,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <a
-              href="https://maps.google.com/?q=Taif+Ash+Shuhada+Ash+Shamaliyah+Bahrain+Street"
+              href="https://www.google.com/maps?q=21.267656,40.417657"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300 bg-slate-900 border border-slate-800 hover:border-amber-400/40 px-3 py-2 rounded-lg transition-all"

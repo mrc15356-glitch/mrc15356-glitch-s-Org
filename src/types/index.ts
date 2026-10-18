@@ -125,6 +125,9 @@ export interface Order {
     timestamp: string;
     note?: string;
   }[];
+  supabaseSynced?: boolean;
+  supabaseTable?: string;
+  supabaseSyncedAt?: string;
 }
 
 export interface ShopSettings {
@@ -146,4 +149,8 @@ export interface ShopSettings {
   bankName: string;
   bankAccountHolder: string;
   iban: string;
+  googleMapsUrl?: string;
+  latitude?: number;
+  longitude?: number;
+  nationalAddress?: string;
 }

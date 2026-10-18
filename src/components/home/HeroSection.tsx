@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   ChevronRight,
   Crown,
+  MapPin,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useShop } from '../../context/ShopContext';
@@ -34,10 +35,22 @@ export const HeroSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Main Hero Content (Left in LTR, Right in RTL) */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-start">
-            {/* Top Crown Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-amber-400/10 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-bold shadow-inner">
-              <Crown className="w-4 h-4 text-amber-400" />
-              <span>{language === 'ar' ? 'الوجهة الأولى للدهانات ومواد التشطيب في الطائف' : 'Taif’s Premier Paint & Finishes Center'}</span>
+            {/* Top Crown & Location Badges */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-amber-400/10 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-bold shadow-inner">
+                <Crown className="w-4 h-4 text-amber-400" />
+                <span>{language === 'ar' ? 'الوجهة الأولى للدهانات ومواد التشطيب في الطائف' : 'Taif’s Premier Paint & Finishes Center'}</span>
+              </div>
+              <a
+                href="https://www.google.com/maps?q=21.267656,40.417657"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-slate-200 text-xs font-bold transition-colors"
+                title="Google Maps Location: 21.267656, 40.417657"
+              >
+                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                <span>{language === 'ar' ? '2936 حسان بن ثابت، الطائف (خرائط Google)' : '2936 Hassan Ibn Thabit, Taif'}</span>
+              </a>
             </div>
 
             {/* Bilingual Headings */}

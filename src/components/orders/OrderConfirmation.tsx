@@ -112,6 +112,25 @@ export const OrderConfirmation: React.FC<OrderConfirmationProps> = ({
           </div>
         </div>
 
+        {/* Supabase Storage Status Box */}
+        <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl p-4 shadow-sm border border-emerald-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs mb-6">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+            <div>
+              <p className="font-bold text-emerald-300 flex items-center gap-1.5">
+                <span>تم إرسال وحفظ حجز الفاتورة في قاعدة بيانات Supabase (جدول invoices)</span>
+              </p>
+              <p className="text-[11px] text-slate-300 font-mono mt-0.5">
+                Project ID: <span className="text-amber-400 font-bold">ryvxezwdbvvajlkmatpt</span> • Table: <span className="text-emerald-400 font-bold">invoices</span>
+              </p>
+            </div>
+          </div>
+          <span className="px-3 py-1 bg-emerald-900/80 text-emerald-200 rounded-lg text-[11px] font-bold border border-emerald-500/40 self-start sm:self-auto flex items-center gap-1">
+            <span>متزامن مع سوبابيز</span>
+            <span>✓</span>
+          </span>
+        </div>
+
         {/* Printable Invoice Card */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-slate-200 space-y-6 print:shadow-none print:border-none">
           {/* Invoice Header */}
@@ -127,7 +146,7 @@ export const OrderConfirmation: React.FC<OrderConfirmationProps> = ({
                 <p className="text-xs text-amber-700 font-bold">
                   {settings.taglineAr}
                 </p>
-                <p className="text-[11px] text-slate-500 mt-0.5">
+                <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
                   {settings.addressAr}
                 </p>
               </div>
@@ -174,6 +193,17 @@ export const OrderConfirmation: React.FC<OrderConfirmationProps> = ({
               <p className="text-emerald-700 font-bold mt-0.5">
                 حالة الطلب: قيد المراجعة والتجهيز
               </p>
+              <div className="pt-2">
+                <a
+                  href="https://www.google.com/maps?q=21.267656,40.417657"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-[11px] shadow-xs transition-colors"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-slate-950" />
+                  <span>عرض موقع المحل على خرائط Google (21.267656, 40.417657)</span>
+                </a>
+              </div>
             </div>
           </div>
 

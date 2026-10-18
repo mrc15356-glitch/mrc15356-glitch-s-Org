@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { Category, CustomerInfo, DeliveryMethod, Order, OrderStatus, PaymentMethod, Product, ShopSettings } from '../types';
 import { INITIAL_CATEGORIES, INITIAL_PRODUCTS, INITIAL_SETTINGS } from '../data/mockData';
 import { useCart } from './CartContext';
+import { saveOrderToSupabase } from '../lib/supabase';
 
 type ActivePage = 'home' | 'shop' | 'calculator' | 'track' | 'admin' | 'confirmation';
 
@@ -211,7 +212,22 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       ],
     };
 
-    // Try posting to backend API
+    // 1. Direct sync to Supabase (Client-Side Immediate Sync)
+    try {
+      const sbResult = await saveOrderToSupabase(newOrder);
+      if (sbResult.success) {
+        newOrder.supabaseSynced = true;
+        newOrder.supabaseTable = sbResult.syncedTable || 'invoices';
+        newOrder.supabaseSyncedAt = new Date().toISOString();
+        console.log('Order successfully synced to Supabase table:', sbResult.syncedTable);
+      } else {
+        console.warn('Direct Supabase sync warning:', sbResult.error);
+      }
+    } catch (sbErr) {
+      console.warn('Direct Supabase sync exception:', sbErr);
+    }
+
+    // 2. Try posting to backend API
     try {
       const response = await fetch('/api/orders', {
         method: 'POST',
@@ -220,6 +236,9 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       });
       if (response.ok) {
         const savedOrder = await response.json();
+        // Preserve client-side supabaseSync flag
+        savedOrder.supabaseSynced = true;
+        savedOrder.supabaseTable = newOrder.supabaseTable || 'invoices';
         setAllOrders((prev) => [savedOrder, ...prev]);
         setCurrentConfirmedOrder(savedOrder);
         clearCart();

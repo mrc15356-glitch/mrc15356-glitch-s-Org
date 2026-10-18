@@ -8,8 +8,8 @@ export const INITIAL_SETTINGS: ShopSettings = {
   taxNumber: '311056774700003',
   phone: '0581702837',
   whatsapp: '0581702837',
-  addressAr: 'الطائف - الشهداء الشمالية - شارع البحرين - بعد شركة زين مباشرة',
-  addressEn: 'Taif - Ash Shuhada Ash Shamaliyah - Bahrain St - Directly after Zain',
+  addressAr: '2936 حسان بن ثابت، TAAG2936, 8733، حي الشهداء الشمالية، الطائف 26513 (شارع البحرين بعد شركة زين مباشرة)',
+  addressEn: '2936 Hassan Ibn Thabit, TAAG2936, 8733, Ash Shuhada Ash Shamaliyah, At Taif 26513 (Bahrain St after Zain)',
   cityAr: 'الطائف، المملكة العربية السعودية',
   cityEn: 'Taif, Saudi Arabia',
   workingHoursAr: 'السبت - الخميس: 7:30 صباحاً - 10:30 مساءً | الجمعة: 4:00 عصراً - 10:30 مساءً',
@@ -19,6 +19,10 @@ export const INITIAL_SETTINGS: ShopSettings = {
   bankName: 'مصرف الراجحي (Al Rajhi Bank)',
   bankAccountHolder: 'مركز المالك للدهانات (Markaz Almalak)',
   iban: 'SA8480000213608010123456',
+  googleMapsUrl: 'https://www.google.com/maps?q=21.267656,40.417657',
+  latitude: 21.267656,
+  longitude: 40.417657,
+  nationalAddress: '2936 Hassan Ibn Thabit, TAAG2936, 8733، حي الشهداء الشمالية، At Taif 26513',
 };
 
 export const INITIAL_CATEGORIES: Category[] = [

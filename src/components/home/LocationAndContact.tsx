@@ -75,16 +75,34 @@ export const LocationAndContact: React.FC = () => {
                 <div className="w-10 h-10 rounded-xl bg-blue-950 text-amber-400 flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase">
-                    {language === 'ar' ? 'العنوان بالتفصيل:' : 'Detailed Address:'}
+                <div className="space-y-1">
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    {language === 'ar' ? 'العنوان الوطني المعتمد:' : 'Verified National Address:'}
                   </h4>
-                  <p className="text-sm font-bold text-slate-900 mt-0.5">
-                    {settings.addressAr}
+                  <p className="text-base font-black text-slate-950">
+                    2936 Hassan Ibn Thabit | 2936 حسان بن ثابت
                   </p>
-                  <p className="text-xs text-amber-700 font-semibold mt-0.5">
-                    {language === 'ar' ? 'معلم مميز: بجوار شركة زين مباشرة - الشهداء الشمالية' : 'Landmark: Directly adjacent to Zain Telecom'}
+                  <p className="text-xs font-bold text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-md inline-block">
+                    TAAG2936, 8733، حي الشهداء الشمالية، At Taif 26513
                   </p>
+                  <p className="text-xs text-slate-600 font-medium">
+                    {language === 'ar' ? 'شارع البحرين - بعد شركة زين مباشرة' : 'Bahrain St - Directly after Zain'}
+                  </p>
+                  <div className="pt-1 flex flex-wrap items-center gap-2 text-xs font-mono">
+                    <span className="font-bold text-slate-700 bg-slate-200/80 px-2 py-0.5 rounded">
+                      الإحداثيات: 21.267656, 40.417657
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText('21.267656, 40.417657');
+                        alert(language === 'ar' ? 'تم نسخ الإحداثيات (21.267656, 40.417657)' : 'Coordinates copied!');
+                      }}
+                      className="text-[11px] text-blue-900 font-sans underline hover:text-amber-600"
+                    >
+                      {language === 'ar' ? 'نسخ الإحداثيات' : 'Copy'}
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -119,54 +137,69 @@ export const LocationAndContact: React.FC = () => {
               </div>
 
               {/* Action buttons */}
-              <div className="pt-2 flex flex-wrap items-center gap-3">
+              <div className="pt-2 flex flex-wrap items-center gap-2.5">
+                <a
+                  href="https://www.google.com/maps?q=21.267656,40.417657"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 rounded-xl text-xs font-black flex items-center gap-2 shadow-sm transition-transform active:scale-95"
+                >
+                  <MapPin className="w-4 h-4 text-slate-950" />
+                  <span>{language === 'ar' ? 'فتح موقع المحل على خرائط Google' : 'Open in Google Maps'}</span>
+                </a>
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=21.267656,40.417657"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 bg-blue-950 hover:bg-blue-900 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm transition-colors"
+                >
+                  <Navigation className="w-4 h-4 text-amber-400" />
+                  <span>{language === 'ar' ? 'الاتجاهات والملاحة' : 'Get Directions'}</span>
+                </a>
                 <a
                   href={`tel:${settings.phone}`}
-                  className="px-4 py-2.5 bg-blue-950 hover:bg-blue-900 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-xs transition-colors"
+                  className="px-3.5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors"
                 >
-                  <Phone className="w-4 h-4 text-amber-400" />
-                  <span>اتصال: {settings.phone}</span>
+                  <Phone className="w-4 h-4 text-slate-700" />
+                  <span>{settings.phone}</span>
                 </a>
                 <a
                   href={`https://wa.me/${saudiPhone}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-xs transition-colors"
+                  className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-colors"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>واتساب الإدارة</span>
-                </a>
-                <a
-                  href="https://maps.google.com/?q=Taif+Ash+Shuhada+Ash+Shamaliyah+Bahrain+Street"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors"
-                >
-                  <Navigation className="w-4 h-4 text-blue-900" />
-                  <span>الاتجاهات على الخريطة</span>
+                  <span>واتساب</span>
                 </a>
               </div>
             </div>
 
-            {/* Map visual frame */}
-            <div className="rounded-2xl overflow-hidden border border-slate-300 shadow-md relative h-48 bg-slate-100 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] opacity-70"></div>
-              <div className="relative text-center p-4">
-                <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center mx-auto shadow-lg animate-bounce mb-2">
-                  <MapPin className="w-6 h-6" />
+            {/* Real Interactive Google Map */}
+            <div className="rounded-2xl overflow-hidden border border-slate-300 shadow-md relative h-64 bg-slate-100 flex flex-col justify-end group">
+              <iframe
+                title="Markaz Almalak Paint Shop Location"
+                src="https://maps.google.com/maps?q=21.267656,40.417657&z=17&output=embed"
+                className="w-full h-full border-0 absolute inset-0"
+                loading="lazy"
+                allowFullScreen
+              />
+              <div className="relative z-10 bg-slate-950/85 backdrop-blur-xs p-3 flex flex-wrap items-center justify-between gap-2 text-white border-t border-white/10">
+                <div className="text-xs">
+                  <p className="font-bold flex items-center gap-1.5 text-amber-400">
+                    <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>2936 حسان بن ثابت، حي الشهداء الشمالية</span>
+                  </p>
+                  <p className="text-[10px] text-slate-300 font-mono">21.267656, 40.417657 • الطائف 26513</p>
                 </div>
-                <h5 className="font-bold text-slate-900 text-xs">
-                  {settings.shopNameAr} - شارع البحرين
-                </h5>
-                <p className="text-[11px] text-slate-500">الطائف - الشهداء الشمالية بعد شركة زين</p>
                 <a
-                  href="https://maps.google.com/?q=Taif+Ash+Shuhada+Ash+Shamaliyah+Bahrain+Street"
+                  href="https://www.google.com/maps?q=21.267656,40.417657"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-blue-900 hover:underline"
+                  className="px-3.5 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition-colors"
                 >
-                  <span>فتح في تطبيق خرائط Google</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <span>{language === 'ar' ? 'فتح في تطبيق خرائط Google' : 'Open in Google Maps'}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>

@@ -81,10 +81,16 @@ export const Header: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
           {/* Location & Tax Info */}
           <div className="flex flex-wrap items-center gap-4 text-slate-300">
-            <span className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
+            <a
+              href="https://www.google.com/maps?q=21.267656,40.417657"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-amber-400 transition-colors"
+              title="View on Google Maps"
+            >
               <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>{settings.addressAr}</span>
-            </span>
+            </a>
             <span className="hidden md:inline-block text-slate-600">|</span>
             <span className="hidden md:flex items-center gap-1 text-slate-300">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
@@ -357,10 +363,19 @@ export const Header: React.FC = () => {
           })}
 
           <div className="pt-3 border-t border-slate-800 space-y-2 text-xs">
-            <div className="p-3 bg-slate-800/80 rounded-xl text-slate-300 space-y-1">
+            <div className="p-3 bg-slate-800/80 rounded-xl text-slate-300 space-y-2">
               <p className="font-bold text-amber-400">{t('taxNumberLabel')}: {settings.taxNumber}</p>
-              <p>{settings.addressAr}</p>
+              <p className="text-[11px] leading-relaxed">{settings.addressAr}</p>
               <p className="font-mono text-emerald-400">جوال: {settings.phone}</p>
+              <a
+                href="https://www.google.com/maps?q=21.267656,40.417657"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-lg text-xs transition-colors"
+              >
+                <MapPin className="w-3.5 h-3.5" />
+                <span>موقع المحل على خرائط Google</span>
+              </a>
             </div>
             <button
               onClick={() => {

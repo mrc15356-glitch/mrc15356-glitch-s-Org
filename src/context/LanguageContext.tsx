@@ -19,7 +19,7 @@ const translations: Record<Language, Record<string, string>> = {
     vatIncluded: 'الأسعار شاملة ضريبة القيمة المضافة 15%',
     vat: 'ضريبة القيمة المضافة (15%)',
     currency: 'ر.س',
-    taifLocation: 'الطائف - الشهداء الشمالية - شارع البحرين - بعد شركة زين مباشرة',
+    taifLocation: '2936 حسان بن ثابت، TAAG2936, 8733، حي الشهداء الشمالية، الطائف 26513 (شارع البحرين بعد شركة زين مباشرة)',
 
     // Nav
     home: 'الرئيسية',
@@ -194,7 +194,7 @@ const translations: Record<Language, Record<string, string>> = {
     vatIncluded: 'All prices include 15% Saudi VAT',
     vat: 'VAT (15%)',
     currency: 'SAR',
-    taifLocation: 'Taif - Ash Shuhada Ash Shamaliyah - Bahrain St - Directly after Zain',
+    taifLocation: '2936 Hassan Ibn Thabit, TAAG2936, 8733, Ash Shuhada Ash Shamaliyah, At Taif 26513 (Bahrain St after Zain)',
 
     // Nav
     home: 'Home',

@@ -303,7 +303,36 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   </div>
                 )}
 
-                {/* Timing */}
+                {/* Info if store pickup */}
+                {deliveryMethod === 'store_pickup' && (
+                  <div className="p-4 bg-amber-50 rounded-2xl border border-amber-300 space-y-2 text-xs">
+                    <div className="flex items-start gap-2.5">
+                      <MapPin className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-bold text-slate-900">
+                          {language === 'ar' ? 'مقر استلام الطلب من المحل بالطائف:' : 'Taif Store Pickup Location:'}
+                        </p>
+                        <p className="font-medium text-slate-700 mt-0.5">
+                          2936 Hassan Ibn Thabit | TAAG2936, 8733، حي الشهداء الشمالية، At Taif 26513
+                        </p>
+                        <p className="text-[11px] text-amber-900 font-bold">
+                          شارع البحرين - بعد شركة زين مباشرة
+                        </p>
+                      </div>
+                    </div>
+                    <div className="pt-1">
+                      <a
+                        href="https://www.google.com/maps?q=21.267656,40.417657"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-[11px] shadow-xs"
+                      >
+                        <MapPin className="w-3.5 h-3.5 text-slate-950" />
+                        <span>فتح موقع المحل على خرائط Google (21.267656, 40.417657)</span>
+                      </a>
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div>
                     <label className="text-xs font-semibold text-slate-700 block mb-1">

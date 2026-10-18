@@ -24,6 +24,7 @@ import {
 import { useLanguage } from '../../context/LanguageContext';
 import { useShop } from '../../context/ShopContext';
 import { Order, OrderStatus, Product, ProductSize } from '../../types';
+import { fetchLiveSupabaseInvoices, saveOrderToSupabase, SupabaseInvoiceRecord } from '../../lib/supabase';
 
 export const AdminDashboard: React.FC = () => {
   const { t, language } = useLanguage();
@@ -67,6 +68,88 @@ export const AdminDashboard: React.FC = () => {
   // Supabase Sync States
   const [isSyncingSupabase, setIsSyncingSupabase] = useState(false);
   const [supabaseSyncResult, setSupabaseSyncResult] = useState<any>(null);
+  const [supabaseLiveRecords, setSupabaseLiveRecords] = useState<SupabaseInvoiceRecord[]>([]);
+  const [isFetchingSupabase, setIsFetchingSupabase] = useState(false);
+  const [supabaseFetchError, setSupabaseFetchError] = useState<string | null>(null);
+  const [testBookingMsg, setTestBookingMsg] = useState<string | null>(null);
+
+  const loadSupabaseRecords = async () => {
+    setIsFetchingSupabase(true);
+    setSupabaseFetchError(null);
+    try {
+      const res = await fetchLiveSupabaseInvoices();
+      if (res.data) {
+        setSupabaseLiveRecords(res.data);
+      } else if (res.error) {
+        setSupabaseFetchError(res.error);
+      }
+    } catch (e: any) {
+      setSupabaseFetchError(e?.message || 'Error loading records');
+    } finally {
+      setIsFetchingSupabase(false);
+    }
+  };
+
+  React.useEffect(() => {
+    if (activeTab === 'database' && isAuthenticated) {
+      loadSupabaseRecords();
+    }
+  }, [activeTab, isAuthenticated]);
+
+  const handleTestSupabaseBooking = async () => {
+    setTestBookingMsg(null);
+    setSupabaseFetchError(null);
+    const testRef = `MALAK-TEST-${Math.floor(1000 + Math.random() * 9000)}`;
+    const testOrder: Order = {
+      id: `ord_${Date.now()}_test`,
+      referenceNumber: testRef,
+      createdAt: new Date().toISOString(),
+      customer: {
+        fullName: 'حجز تجريبي (Test Order Booking)',
+        phone: '0581702837',
+        whatsapp: '0581702837',
+        city: 'الطائف (Taif)',
+        district: 'الشهداء الشمالية',
+        address: '2936 حسان بن ثابت، شارع البحرين بعد شركة زين',
+      },
+      items: [
+        {
+          productId: 'test-paint',
+          productNameAr: 'دهان جوتن فينوماستيك حريري فاخر (حجز تجربة)',
+          productNameEn: 'Jotun Fenomastic Pure Silk (Test)',
+          size: '4L',
+          sizeLabelAr: '4 لتر (جالون)',
+          sizeLabelEn: '4 Liters',
+          unitPrice: 165,
+          quantity: 1,
+          subtotal: 165,
+        },
+      ],
+      subtotal: 165,
+      vatAmount: 21.52,
+      deliveryFee: 0,
+      totalAmount: 165,
+      paymentMethod: 'cod',
+      paymentStatus: 'pending',
+      deliveryMethod: 'store_pickup',
+      status: 'pending',
+      statusHistory: [
+        {
+          status: 'pending',
+          timestamp: new Date().toISOString(),
+          note: 'طلب حجز تجريبي لاختبار التخزين في سوبابيز',
+        },
+      ],
+    };
+
+    const res = await saveOrderToSupabase(testOrder);
+    if (res.success) {
+      setTestBookingMsg(`✅ نجح الإرسال والحجز فورياً! تم حفظ الطلب (${testRef}) في جدول [${res.syncedTable}] في سوبابيز بنجاح.`);
+      loadSupabaseRecords();
+    } else {
+      setSupabaseFetchError(`فشل الإرسال إلى سوبابيز: ${res.error}`);
+    }
+  };
 
   const handleRunSupabaseSync = async () => {
     setIsSyncingSupabase(true);
@@ -75,6 +158,7 @@ export const AdminDashboard: React.FC = () => {
       const res = await fetch('/api/supabase/sync', { method: 'POST' });
       const data = await res.json();
       setSupabaseSyncResult(data);
+      loadSupabaseRecords();
     } catch (err: any) {
       setSupabaseSyncResult({ error: err?.message || 'Sync failed' });
     } finally {
@@ -895,13 +979,45 @@ export const AdminDashboard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleTestSupabaseBooking}
+                  className="px-3.5 py-1.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-transform active:scale-95"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>إرسال حجز تجريبي لـ Supabase</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={loadSupabaseRecords}
+                  disabled={isFetchingSupabase}
+                  className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-colors border border-slate-300"
+                >
+                  <Clock className={`w-3.5 h-3.5 ${isFetchingSupabase ? 'animate-spin' : ''}`} />
+                  <span>تحديث السجلات الحية</span>
+                </button>
                 <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1.5 border border-emerald-300">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span>Supabase Connected</span>
                 </span>
               </div>
             </div>
+
+            {/* Test booking notification */}
+            {testBookingMsg && (
+              <div className="p-3.5 bg-emerald-100 border border-emerald-400 text-emerald-900 rounded-xl text-xs flex items-center gap-2 font-bold animate-in fade-in">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{testBookingMsg}</span>
+              </div>
+            )}
+
+            {supabaseFetchError && (
+              <div className="p-3.5 bg-red-100 border border-red-300 text-red-900 rounded-xl text-xs flex items-center gap-2 font-bold animate-in fade-in">
+                <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+                <span>{supabaseFetchError}</span>
+              </div>
+            )}
 
             {/* Supabase Connection Details Card */}
             <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-blue-950 text-white rounded-2xl p-6 shadow-md border border-emerald-500/30 space-y-4">
@@ -918,15 +1034,17 @@ export const AdminDashboard: React.FC = () => {
                   </p>
                 </div>
 
-                <button
-                  type="button"
-                  disabled={isSyncingSupabase}
-                  onClick={handleRunSupabaseSync}
-                  className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 disabled:opacity-50 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-2 self-start sm:self-auto"
-                >
-                  <Database className="w-4 h-4" />
-                  <span>{isSyncingSupabase ? 'جاري المزامنة مع سوبابيز...' : (language === 'ar' ? 'مزامنة كافة الفواتير مع Supabase الآن' : 'Sync All Invoices to Supabase')}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={isSyncingSupabase}
+                    onClick={handleRunSupabaseSync}
+                    className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 disabled:opacity-50 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-2 self-start sm:self-auto"
+                  >
+                    <Database className="w-4 h-4" />
+                    <span>{isSyncingSupabase ? 'جاري المزامنة...' : (language === 'ar' ? 'مزامنة كافة الفواتير المخزنة محلياً مع Supabase' : 'Sync All Invoices')}</span>
+                  </button>
+                </div>
               </div>
 
               {/* Live Sync Result Notification */}
@@ -960,7 +1078,7 @@ export const AdminDashboard: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                 <div className="bg-white/5 rounded-xl p-3 border border-white/10">
-                  <span className="text-slate-400 text-[10px] block">جدول الفواتير المستهدف</span>
+                  <span className="text-slate-400 text-[10px] block">جدول الفواتير المستهدف في Supabase</span>
                   <span className="font-bold text-emerald-400 font-mono text-sm">invoices</span>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 border border-white/10">
@@ -972,6 +1090,80 @@ export const AdminDashboard: React.FC = () => {
                   <span className="font-bold text-white text-xs">عند كل طلب جديد فورياً</span>
                 </div>
               </div>
+            </div>
+
+            {/* LIVE DATA DIRECT FROM SUPABASE TABLE */}
+            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 pb-3">
+                <div>
+                  <h4 className="font-black text-slate-900 text-sm flex items-center gap-2">
+                    <Database className="w-4 h-4 text-emerald-600" />
+                    <span>الفواتير والطلبات المسجلة حالياً داخل حسابك في Supabase (Live From Supabase)</span>
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    هذه البيانات معروضة مباشرة من جدول <code className="font-mono font-bold text-emerald-700">invoices</code> في مشروعك: <span className="font-mono text-blue-900">ryvxezwdbvvajlkmatpt</span>
+                  </p>
+                </div>
+                <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-mono font-bold text-xs rounded-lg self-start sm:self-auto">
+                  عدد السجلات الحية: {supabaseLiveRecords.length}
+                </span>
+              </div>
+
+              {isFetchingSupabase ? (
+                <div className="py-8 text-center text-xs text-slate-500">
+                  جاري جلب السجلات الحية من سوبابيز...
+                </div>
+              ) : supabaseLiveRecords.length === 0 ? (
+                <div className="py-8 text-center text-xs text-slate-500 space-y-2">
+                  <p>لا توجد سجلات بعد في جدول invoices أو جاري التحديث.</p>
+                  <button
+                    type="button"
+                    onClick={handleTestSupabaseBooking}
+                    className="px-4 py-2 bg-amber-400 text-slate-950 font-bold rounded-xl text-xs hover:bg-amber-300"
+                  >
+                    إرسال طلب حجز تجريبي الآن
+                  </button>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-start">
+                    <thead>
+                      <tr className="border-b border-slate-200 text-slate-400 text-[11px] bg-slate-100">
+                        <th className="py-2.5 px-3 text-start font-bold">رقم المرجع (Ref)</th>
+                        <th className="py-2.5 px-3 text-start font-bold">اسم العميل</th>
+                        <th className="py-2.5 px-3 text-center font-bold">الجوال</th>
+                        <th className="py-2.5 px-3 text-center font-bold">المدينة / الحي</th>
+                        <th className="py-2.5 px-3 text-center font-bold">الإجمالي</th>
+                        <th className="py-2.5 px-3 text-end font-bold">تاريخ الحفظ</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {supabaseLiveRecords.map((rec) => (
+                        <tr key={rec.id} className="hover:bg-slate-100/80 transition-colors">
+                          <td className="py-2.5 px-3 font-mono font-bold text-blue-950">
+                            {rec.reference_number}
+                          </td>
+                          <td className="py-2.5 px-3 font-bold text-slate-900">
+                            {rec.customer_name}
+                          </td>
+                          <td className="py-2.5 px-3 text-center font-mono text-slate-700">
+                            {rec.customer_phone}
+                          </td>
+                          <td className="py-2.5 px-3 text-center text-slate-600">
+                            {rec.customer_district || rec.customer_city || 'الطائف'}
+                          </td>
+                          <td className="py-2.5 px-3 text-center font-mono font-bold text-emerald-700">
+                            {rec.total_amount} ر.س
+                          </td>
+                          <td className="py-2.5 px-3 text-end text-slate-500 font-mono text-[11px]">
+                            {rec.created_at ? new Date(rec.created_at).toLocaleString('ar-SA') : '-'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
 
             {/* CRITICAL RLS FIX CARD */}
@@ -1075,6 +1267,42 @@ export const AdminDashboard: React.FC = () => {
   notes text,
   created_at timestamptz DEFAULT now()
 );`}
+              </pre>
+            </div>
+
+            {/* SQL VIEW for order_booking and orders */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-5 border border-blue-200 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">
+                    {language === 'ar' ? 'لإظهار الطلبات في سوبابيز باسم order_booking أو orders (SQL Views)' : 'Create order_booking & orders Views in Supabase'}
+                  </h4>
+                  <p className="text-[11px] text-slate-600">
+                    {language === 'ar'
+                      ? 'إذا كنت تبحث في لوحة سوبابيز عن جدول باسم order_booking أو orders، قم بنسخ هذا الأمر وتشغيله في SQL Editor لإنشاء روابط تلقائية تظهر كل الفواتير فوراً:'
+                      : 'Run this in Supabase SQL editor to create instant views for order_booking and orders:'}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const sql = `-- Create instant views in Supabase SQL Editor:
+CREATE OR REPLACE VIEW order_booking AS SELECT * FROM invoices;
+CREATE OR REPLACE VIEW orders AS SELECT * FROM invoices;
+GRANT SELECT, INSERT, UPDATE ON order_booking TO anon, authenticated;
+GRANT SELECT, INSERT, UPDATE ON orders TO anon, authenticated;`;
+                    navigator.clipboard.writeText(sql);
+                    alert(language === 'ar' ? 'تم نسخ كود إنشاء order_booking إلى الحافظة!' : 'SQL copied to clipboard');
+                  }}
+                  className="px-3.5 py-1.5 bg-blue-900 text-white rounded-lg text-xs font-bold hover:bg-blue-800 transition-colors shrink-0"
+                >
+                  {language === 'ar' ? 'نسخ أمر order_booking' : 'Copy SQL View'}
+                </button>
+              </div>
+
+              <pre className="bg-slate-900 text-amber-300 p-3 rounded-xl text-xs font-mono border border-slate-800 text-start" dir="ltr">
+{`CREATE OR REPLACE VIEW order_booking AS SELECT * FROM invoices;
+CREATE OR REPLACE VIEW orders AS SELECT * FROM invoices;`}
               </pre>
             </div>
 
