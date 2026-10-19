@@ -20,7 +20,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const CART_STORAGE_KEY = 'almalak_shopping_cart_v1';
-const FREE_DELIVERY_THRESHOLD = 450;
+const FREE_DELIVERY_THRESHOLD = 1000;
 const STANDARD_DELIVERY_FEE = 25;
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

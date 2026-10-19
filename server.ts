@@ -60,6 +60,18 @@ function loadStore(): StoreData {
   return initialStore;
 }
 
+function getStore(): StoreData {
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      const raw = fs.readFileSync(DATA_FILE, 'utf-8');
+      store = JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error('Error refreshing store:', err);
+  }
+  return store;
+}
+
 function saveStore(data: StoreData) {
   try {
     if (!fs.existsSync(DATA_DIR)) {
@@ -188,8 +200,9 @@ app.get('/api/categories', (req: Request, res: Response) => {
 
 // 4. Products
 app.get('/api/products', (req: Request, res: Response) => {
+  const currentStore = getStore();
   const { category, brand, search } = req.query;
-  let result = [...store.products];
+  let result = [...currentStore.products];
 
   if (category && typeof category === 'string') {
     result = result.filter((p) => p.categoryId === category);
@@ -211,34 +224,38 @@ app.get('/api/products', (req: Request, res: Response) => {
 });
 
 app.get('/api/products/:id', (req: Request, res: Response) => {
-  const product = store.products.find((p) => p.id === req.params.id);
+  const currentStore = getStore();
+  const product = currentStore.products.find((p) => p.id === req.params.id);
   if (!product) return res.status(404).json({ error: 'Product not found' });
   res.json(product);
 });
 
 app.post('/api/products', (req: Request, res: Response) => {
+  const currentStore = getStore();
   const newProduct: Product = {
     ...req.body,
     id: req.body.id || `p-${Date.now()}`,
     isDemo: false,
   };
-  store.products.unshift(newProduct);
-  saveStore(store);
+  currentStore.products.unshift(newProduct);
+  saveStore(currentStore);
   res.status(201).json(newProduct);
 });
 
 app.put('/api/products/:id', (req: Request, res: Response) => {
-  const idx = store.products.findIndex((p) => p.id === req.params.id);
+  const currentStore = getStore();
+  const idx = currentStore.products.findIndex((p) => p.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Product not found' });
-  store.products[idx] = { ...store.products[idx], ...req.body, id: req.params.id };
-  saveStore(store);
-  res.json(store.products[idx]);
+  currentStore.products[idx] = { ...currentStore.products[idx], ...req.body, id: req.params.id };
+  saveStore(currentStore);
+  res.json(currentStore.products[idx]);
 });
 
 app.delete('/api/products/:id', (req: Request, res: Response) => {
-  store.products = store.products.filter((p) => p.id !== req.params.id);
-  saveStore(store);
-  res.json({ success: true });
+  const currentStore = getStore();
+  currentStore.products = currentStore.products.filter((p) => p.id !== req.params.id);
+  saveStore(currentStore);
+  res.json({ success: true, id: req.params.id });
 });
 
 // 5. Orders (Server-side price verification to prevent manipulation)

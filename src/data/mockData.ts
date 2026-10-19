@@ -15,7 +15,7 @@ export const INITIAL_SETTINGS: ShopSettings = {
   workingHoursAr: 'السبت - الخميس: 7:30 صباحاً - 10:30 مساءً | الجمعة: 4:00 عصراً - 10:30 مساءً',
   workingHoursEn: 'Sat - Thu: 7:30 AM - 10:30 PM | Friday: 4:00 PM - 10:30 PM',
   deliveryFee: 25,
-  freeDeliveryThreshold: 450,
+  freeDeliveryThreshold: 1000,
   bankName: 'مصرف الراجحي (Al Rajhi Bank)',
   bankAccountHolder: 'مركز المالك للدهانات (Markaz Almalak)',
   iban: 'SA8480000213608010123456',
@@ -33,7 +33,7 @@ export const INITIAL_CATEGORIES: Category[] = [
     descriptionAr: 'دهانات فاخرة غير قابلة للخدش، مطفية وحريرية ولامعة بألوان عصرية تدوم طويلاً',
     descriptionEn: 'Luxury washable interior paints in matt, silk, and glossy finishes',
     iconName: 'Paintbrush',
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80',
+    image: '/src/assets/images/interior_paint_bucket_1792392340490.jpg',
     productCount: 12,
   },
   {
@@ -150,7 +150,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     brand: 'جوتن (Jotun)',
     descriptionAr: 'دهان داخلي مائي فاخر بلمسة حريرية أنيقة، قابل للغسيل المتكرر، مقاوم للبقع والاصفرار، بدون رائحة تقريباً وصديق للبيئة.',
     descriptionEn: 'Premium water-based interior paint offering a rich silky sheen, superior washability, and true color accuracy.',
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80',
+    image: '/src/assets/images/interior_paint_bucket_1792392340490.jpg',
     sizes: [
       { size: '1L', labelAr: '1 لتر (علبة صغيرة)', labelEn: '1 Liter', price: 48, inStock: true },
       { size: '4L', labelAr: '4 لتر (جالون قياسي)', labelEn: '4 Liters (Gallon)', price: 165, inStock: true },

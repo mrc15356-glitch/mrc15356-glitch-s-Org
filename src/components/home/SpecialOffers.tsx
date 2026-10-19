@@ -46,7 +46,7 @@ export const SpecialOffers: React.FC = () => {
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>{language === 'ar' ? 'توصيل مجاني لطلبات الواجهات فوق 450 ر.س' : 'Free Delivery on Orders Over 450 SAR'}</span>
+                <span>{language === 'ar' ? 'توصيل مجاني لطلبات الواجهات فوق 1000 ر.س' : 'Free Delivery on Orders Over 1000 SAR'}</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />

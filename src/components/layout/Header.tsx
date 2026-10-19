@@ -333,7 +333,11 @@ export const Header: React.FC = () => {
           <div className="flex items-center gap-3 text-xs text-amber-300 font-semibold py-2">
             <span className="flex items-center gap-1 bg-amber-400/20 text-amber-300 px-3 py-1 rounded-full border border-amber-400/30">
               <Tag className="w-3.5 h-3.5" />
-              <span>{language === 'ar' ? 'توصيل مجاني للطلبات فوق 450 ر.س بالطائف' : 'Free Taif Delivery over 450 SAR'}</span>
+              <span>
+                {language === 'ar'
+                  ? `توصيل مجاني للطلبات فوق ${settings.freeDeliveryThreshold || 1000} ر.س بالطائف`
+                  : `Free Taif Delivery over ${settings.freeDeliveryThreshold || 1000} SAR`}
+              </span>
             </span>
           </div>
         </div>
@@ -363,6 +367,14 @@ export const Header: React.FC = () => {
           })}
 
           <div className="pt-3 border-t border-slate-800 space-y-2 text-xs">
+            <div className="flex items-center gap-2 p-2.5 bg-amber-400/10 text-amber-300 rounded-xl border border-amber-400/20 text-xs font-semibold">
+              <Tag className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>
+                {language === 'ar'
+                  ? `توصيل مجاني للطلبات فوق ${settings.freeDeliveryThreshold || 1000} ر.س بالطائف`
+                  : `Free Taif Delivery over ${settings.freeDeliveryThreshold || 1000} SAR`}
+              </span>
+            </div>
             <div className="p-3 bg-slate-800/80 rounded-xl text-slate-300 space-y-2">
               <p className="font-bold text-amber-400">{t('taxNumberLabel')}: {settings.taxNumber}</p>
               <p className="text-[11px] leading-relaxed">{settings.addressAr}</p>

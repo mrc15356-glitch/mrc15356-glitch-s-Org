@@ -20,11 +20,16 @@ import {
   ExternalLink,
   ChevronDown,
   X,
+  Copy,
+  Filter,
+  Sparkles,
+  Check,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useShop } from '../../context/ShopContext';
 import { Order, OrderStatus, Product, ProductSize } from '../../types';
 import { fetchLiveSupabaseInvoices, saveOrderToSupabase, SupabaseInvoiceRecord } from '../../lib/supabase';
+import { ProductEditorModal } from './ProductEditorModal';
 
 export const AdminDashboard: React.FC = () => {
   const { t, language } = useLanguage();
@@ -60,6 +65,11 @@ export const AdminDashboard: React.FC = () => {
   // Product Add / Edit Modal
   const [isEditingProduct, setIsEditingProduct] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
+  const [productSearchQuery, setProductSearchQuery] = useState('');
+  const [productCategoryFilter, setProductCategoryFilter] = useState('all');
+  const [productBrandFilter, setProductBrandFilter] = useState('all');
+  const [productStockFilter, setProductStockFilter] = useState('all');
+  const [productSuccessMsg, setProductSuccessMsg] = useState<string | null>(null);
 
   // Settings State Form
   const [settingsForm, setSettingsForm] = useState(settings);
@@ -212,45 +222,58 @@ export const AdminDashboard: React.FC = () => {
     return true;
   });
 
-  const handleSaveProduct = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingProduct?.nameAr || !editingProduct?.basePrice) return;
+  // Product management & filtering
+  const uniqueBrands = Array.from(new Set(products.map((p) => p.brand).filter(Boolean)));
 
-    if (editingProduct.id) {
-      // Edit existing
-      await updateProduct(editingProduct as Product);
-    } else {
-      // Add new
-      const defaultSizes: ProductSize[] = [
-        { size: '1L', labelAr: '1 لتر', labelEn: '1 Liter', price: editingProduct.basePrice, inStock: true },
-        { size: '4L', labelAr: '4 لتر (جالون)', labelEn: '4 Liters', price: editingProduct.basePrice * 3, inStock: true },
-      ];
-
-      await addProduct({
-        nameAr: editingProduct.nameAr,
-        nameEn: editingProduct.nameEn || editingProduct.nameAr,
-        categoryId: editingProduct.categoryId || categories[0].id,
-        categoryNameAr: categories.find((c) => c.id === editingProduct.categoryId)?.nameAr || 'دهانات عامة',
-        categoryNameEn: categories.find((c) => c.id === editingProduct.categoryId)?.nameEn || 'General Paints',
-        brand: editingProduct.brand || 'مركز المالك',
-        descriptionAr: editingProduct.descriptionAr || '',
-        descriptionEn: editingProduct.descriptionEn || '',
-        image: editingProduct.image || 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80',
-        sizes: editingProduct.sizes || defaultSizes,
-        colors: [],
-        basePrice: Number(editingProduct.basePrice),
-        rating: 5.0,
-        reviewsCount: 1,
-        coverage: editingProduct.coverage || '12-14 م² / لتر',
-        dryTime: editingProduct.dryTime || 'ساعتان',
-        finish: editingProduct.finish || 'حريري',
-        stock: Number(editingProduct.stock || 20),
-        isDemo: false,
-      });
+  const filteredProducts = products.filter((p) => {
+    if (productCategoryFilter !== 'all' && p.categoryId !== productCategoryFilter) return false;
+    if (productBrandFilter !== 'all' && p.brand !== productBrandFilter) return false;
+    if (productStockFilter === 'in_stock' && p.stock <= 0) return false;
+    if (productStockFilter === 'low_stock' && (p.stock <= 0 || p.stock > 10)) return false;
+    if (productStockFilter === 'out_of_stock' && p.stock > 0) return false;
+    if (productSearchQuery.trim()) {
+      const q = productSearchQuery.toLowerCase();
+      const matchName = p.nameAr.toLowerCase().includes(q) || (p.nameEn && p.nameEn.toLowerCase().includes(q));
+      const matchBrand = p.brand.toLowerCase().includes(q);
+      const matchId = p.id.toLowerCase().includes(q);
+      if (!matchName && !matchBrand && !matchId) return false;
     }
+    return true;
+  });
 
-    setIsEditingProduct(false);
-    setEditingProduct(null);
+  const handleSaveProductFromModal = async (savedProduct: Product) => {
+    const isExisting = products.some((p) => p.id === savedProduct.id);
+    if (isExisting) {
+      await updateProduct(savedProduct);
+      setProductSuccessMsg(`✅ تم تحديث بيانات منتج "${savedProduct.nameAr}" بنجاح!`);
+    } else {
+      await addProduct(savedProduct);
+      setProductSuccessMsg(`✅ تمت إضافة المنتج الجديد "${savedProduct.nameAr}" إلى الكتالوج بنجاح!`);
+    }
+    setTimeout(() => setProductSuccessMsg(null), 4000);
+  };
+
+  const handleDuplicateProduct = (p: Product) => {
+    setEditingProduct({
+      ...p,
+      id: undefined,
+      nameAr: `${p.nameAr} (نسخة جديدة)`,
+      nameEn: p.nameEn ? `${p.nameEn} (Copy)` : '',
+    });
+    setIsEditingProduct(true);
+  };
+
+  const handleDeleteProduct = async (p: Product) => {
+    const confirmed = window.confirm(
+      language === 'ar'
+        ? `هل أنت متأكد من حذف المنتج "${p.nameAr}" نهائياً من المتجر؟`
+        : `Are you sure you want to delete "${p.nameEn || p.nameAr}"?`
+    );
+    if (confirmed) {
+      await deleteProduct(p.id);
+      setProductSuccessMsg(`🗑️ تم حذف المنتج "${p.nameAr}" بنجاح.`);
+      setTimeout(() => setProductSuccessMsg(null), 4000);
+    }
   };
 
   const handleSaveSettings = async (e: React.FormEvent) => {
@@ -604,236 +627,367 @@ export const AdminDashboard: React.FC = () => {
 
         {/* Tab 2: Products Catalog Management */}
         {activeTab === 'products' && (
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <h3 className="text-base font-bold text-slate-900">
-                  {language === 'ar' ? 'إدارة كتالوج الدهانات والمخزون' : 'Paint Catalog Management'}
-                </h3>
-                <p className="text-xs text-slate-500">
-                  {language === 'ar' ? 'إضافة وتعديل وحذف أصناف الدهانات والأسعار' : 'Add, edit, or delete items and pricing'}
-                </p>
-              </div>
-
-              <button
-                onClick={() => {
-                  setEditingProduct({
-                    nameAr: '',
-                    nameEn: '',
-                    brand: 'جوتن (Jotun)',
-                    basePrice: 150,
-                    stock: 30,
-                    categoryId: categories[0].id,
-                    descriptionAr: '',
-                    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80',
-                  });
-                  setIsEditingProduct(true);
-                }}
-                className="px-4 py-2 bg-blue-950 hover:bg-blue-900 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs"
-              >
-                <Plus className="w-4 h-4 text-amber-400" />
-                <span>{t('addNewProduct')}</span>
-              </button>
-            </div>
-
-            {/* Products Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs text-start">
-                <thead>
-                  <tr className="border-b border-slate-200 text-slate-400 text-[11px]">
-                    <th className="py-2.5 text-start font-bold">المنتج</th>
-                    <th className="py-2.5 text-start font-bold">القسم / الشركة</th>
-                    <th className="py-2.5 text-center font-bold">السعر الأساسي</th>
-                    <th className="py-2.5 text-center font-bold">المخزون المتوفر</th>
-                    <th className="py-2.5 text-end font-bold">إجراءات</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {products.map((p) => (
-                    <tr key={p.id} className="hover:bg-slate-50">
-                      <td className="py-3">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={p.image}
-                            alt={p.nameAr}
-                            className="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0"
-                          />
-                          <div>
-                            <p className="font-bold text-slate-900">{p.nameAr}</p>
-                            <p className="text-[11px] text-slate-500">{p.nameEn}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="py-3">
-                        <p className="font-semibold text-slate-800">{p.categoryNameAr}</p>
-                        <p className="text-[11px] text-amber-700">{p.brand}</p>
-                      </td>
-                      <td className="py-3 text-center font-mono font-bold text-blue-950">
-                        {p.basePrice} {t('currency')}
-                      </td>
-                      <td className="py-3 text-center font-mono font-bold text-slate-700">
-                        {p.stock}
-                      </td>
-                      <td className="py-3 text-end">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => {
-                              setEditingProduct(p);
-                              setIsEditingProduct(true);
-                            }}
-                            className="p-1.5 text-slate-600 hover:text-blue-900 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
-                            title="Edit"
-                          >
-                            <Edit2 className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                                deleteProduct(p.id);
-                              }
-                            }}
-                            className="p-1.5 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Add / Edit Product Modal */}
-            {isEditingProduct && editingProduct && (
-              <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
-                <div className="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-4">
-                  <div className="flex items-center justify-between border-b pb-3">
-                    <h4 className="font-bold text-base text-slate-900">
-                      {editingProduct.id ? 'تعديل منتج دهان' : 'إضافة منتج دهان جديد'}
-                    </h4>
-                    <button
-                      onClick={() => {
-                        setIsEditingProduct(false);
-                        setEditingProduct(null);
-                      }}
-                      className="text-slate-400 hover:text-slate-600"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-
-                  <form onSubmit={handleSaveProduct} className="space-y-4 text-xs">
-                    <div>
-                      <label className="font-bold text-slate-700 block mb-1">اسم الدهان (بالعربية) *</label>
-                      <input
-                        type="text"
-                        required
-                        value={editingProduct.nameAr || ''}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, nameAr: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="font-bold text-slate-700 block mb-1">اسم الدهان (بالإنجليزية)</label>
-                      <input
-                        type="text"
-                        value={editingProduct.nameEn || ''}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, nameEn: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="font-bold text-slate-700 block mb-1">الشركة المصنعة</label>
-                        <input
-                          type="text"
-                          value={editingProduct.brand || ''}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, brand: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold"
-                        />
-                      </div>
-                      <div>
-                        <label className="font-bold text-slate-700 block mb-1">القسم</label>
-                        <select
-                          value={editingProduct.categoryId || categories[0].id}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, categoryId: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold"
-                        >
-                          {categories.map((c) => (
-                            <option key={c.id} value={c.id}>{c.nameAr}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="font-bold text-slate-700 block mb-1">السعر الأساسي (ر.س) *</label>
-                        <input
-                          type="number"
-                          required
-                          value={editingProduct.basePrice || 0}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, basePrice: Number(e.target.value) })}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold font-mono"
-                        />
-                      </div>
-                      <div>
-                        <label className="font-bold text-slate-700 block mb-1">الكمية في المستودع</label>
-                        <input
-                          type="number"
-                          value={editingProduct.stock || 20}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, stock: Number(e.target.value) })}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold font-mono"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="font-bold text-slate-700 block mb-1">رابط صورة المنتج (URL)</label>
-                      <input
-                        type="url"
-                        value={editingProduct.image || ''}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, image: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-mono text-start"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="font-bold text-slate-700 block mb-1">وصف المنتج ومميزاته</label>
-                      <textarea
-                        rows={3}
-                        value={editingProduct.descriptionAr || ''}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, descriptionAr: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs"
-                      />
-                    </div>
-
-                    <div className="flex justify-end gap-2 pt-2 border-t">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsEditingProduct(false);
-                          setEditingProduct(null);
-                        }}
-                        className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold"
-                      >
-                        إلغاء
-                      </button>
-                      <button
-                        type="submit"
-                        className="px-6 py-2 bg-blue-950 hover:bg-blue-900 text-white rounded-xl font-bold shadow-md"
-                      >
-                        حفظ التغييرات
-                      </button>
-                    </div>
-                  </form>
+          <div className="space-y-6">
+            {/* Success notification banner */}
+            {productSuccessMsg && (
+              <div className="p-4 bg-emerald-50 border border-emerald-300 text-emerald-900 rounded-2xl flex items-center justify-between text-xs font-bold shadow-xs animate-in fade-in slide-in-from-top-2">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <span>{productSuccessMsg}</span>
                 </div>
+                <button
+                  onClick={() => setProductSuccessMsg(null)}
+                  className="text-emerald-700 hover:text-emerald-900"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             )}
+
+            {/* Metrics & Overview Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+                <div className="flex items-center justify-between text-slate-400 mb-1">
+                  <span className="text-xs font-bold">إجمالي الأصناف</span>
+                  <Package className="w-4 h-4 text-blue-900" />
+                </div>
+                <p className="text-xl font-black text-slate-900 font-mono">{products.length}</p>
+                <span className="text-[10px] text-slate-500">صنف مسجل في المتجر</span>
+              </div>
+
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+                <div className="flex items-center justify-between text-slate-400 mb-1">
+                  <span className="text-xs font-bold">العلامات والشركات</span>
+                  <ShieldCheck className="w-4 h-4 text-amber-500" />
+                </div>
+                <p className="text-xl font-black text-slate-900 font-mono">{uniqueBrands.length}</p>
+                <span className="text-[10px] text-slate-500">جوتن، الجزيرة، امريكي، سافيتو...</span>
+              </div>
+
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+                <div className="flex items-center justify-between text-slate-400 mb-1">
+                  <span className="text-xs font-bold">أصناف قاربت على النفاد</span>
+                  <AlertTriangle className="w-4 h-4 text-red-500" />
+                </div>
+                <p className="text-xl font-black text-red-600 font-mono">
+                  {products.filter((p) => p.stock <= 10).length}
+                </p>
+                <span className="text-[10px] text-slate-500">أقل من 10 جالونات في المستودع</span>
+              </div>
+
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+                <div className="flex items-center justify-between text-slate-400 mb-1">
+                  <span className="text-xs font-bold">الأكثر طلباً وعروض</span>
+                  <Sparkles className="w-4 h-4 text-emerald-500" />
+                </div>
+                <p className="text-xl font-black text-emerald-700 font-mono">
+                  {products.filter((p) => p.isBestSeller || p.isSpecialOffer).length}
+                </p>
+                <span className="text-[10px] text-slate-500">مميزة في واجهة المتجر</span>
+              </div>
+            </div>
+
+            {/* Main Products Panel */}
+            <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-5">
+              {/* Toolbar Header */}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <span>{language === 'ar' ? 'إدارة كتالوج الدهانات والمخزون' : 'Paint Catalog & Stock'}</span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-900 text-xs font-bold font-mono">
+                      {filteredProducts.length} من {products.length}
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {language === 'ar'
+                      ? 'إضافة أصناف جديدة، تعديل الأسعار والأحجام والألوان، وحذف المنتجات بسهولة'
+                      : 'Add, update pricing/sizes/colors, or delete products'}
+                  </p>
+                </div>
+
+                {/* Primary Add Button */}
+                <button
+                  onClick={() => {
+                    setEditingProduct(null);
+                    setIsEditingProduct(true);
+                  }}
+                  className="px-5 py-2.5 bg-gradient-to-r from-blue-950 via-slate-900 to-blue-900 hover:from-blue-900 hover:to-blue-800 text-white rounded-xl text-xs font-black flex items-center gap-2 transition-all shadow-md self-start lg:self-center cursor-pointer"
+                >
+                  <Plus className="w-4 h-4 text-amber-400" />
+                  <span>{language === 'ar' ? 'إضافة منتج دهان جديد' : 'Add New Paint Product'}</span>
+                </button>
+              </div>
+
+              {/* Filters Bar */}
+              <div className="flex flex-wrap items-center gap-2.5 p-3 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+                {/* Search */}
+                <div className="relative flex-1 min-w-[200px]">
+                  <Search className="w-4 h-4 text-slate-400 absolute start-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder={language === 'ar' ? 'بحث بالاسم، الشركة (جوتن، امريكي...) أو الرمز...' : 'Search paint name, brand...'}
+                    value={productSearchQuery}
+                    onChange={(e) => setProductSearchQuery(e.target.value)}
+                    className="w-full bg-white border border-slate-300 rounded-xl ps-9 pe-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:ring-1 focus:ring-blue-900"
+                  />
+                  {productSearchQuery && (
+                    <button
+                      onClick={() => setProductSearchQuery('')}
+                      className="absolute end-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Category Filter */}
+                <div className="flex items-center gap-1.5">
+                  <Filter className="w-3.5 h-3.5 text-slate-400" />
+                  <select
+                    value={productCategoryFilter}
+                    onChange={(e) => setProductCategoryFilter(e.target.value)}
+                    className="bg-white border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 focus:outline-none"
+                  >
+                    <option value="all">جميع الأقسام ({categories.length})</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.nameAr}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Brand Filter */}
+                <select
+                  value={productBrandFilter}
+                  onChange={(e) => setProductBrandFilter(e.target.value)}
+                  className="bg-white border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 focus:outline-none"
+                >
+                  <option value="all">جميع الشركات المصنعة</option>
+                  {uniqueBrands.map((b) => (
+                    <option key={b} value={b}>
+                      {b}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Stock Filter */}
+                <select
+                  value={productStockFilter}
+                  onChange={(e) => setProductStockFilter(e.target.value)}
+                  className="bg-white border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 focus:outline-none"
+                >
+                  <option value="all">حالة المخزون (الكل)</option>
+                  <option value="in_stock">متوفر في المستودع</option>
+                  <option value="low_stock">مخزون منخفض (أقل من 10)</option>
+                  <option value="out_of_stock">نفذت الكمية (0)</option>
+                </select>
+
+                {(productSearchQuery || productCategoryFilter !== 'all' || productBrandFilter !== 'all' || productStockFilter !== 'all') && (
+                  <button
+                    onClick={() => {
+                      setProductSearchQuery('');
+                      setProductCategoryFilter('all');
+                      setProductBrandFilter('all');
+                      setProductStockFilter('all');
+                    }}
+                    className="px-2.5 py-1.5 text-red-600 hover:bg-red-50 rounded-xl font-bold transition-colors"
+                  >
+                    إعادة ضبط الفلاتر
+                  </button>
+                )}
+              </div>
+
+              {/* Products Table */}
+              {filteredProducts.length === 0 ? (
+                <div className="py-16 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+                    <Package className="w-6 h-6" />
+                  </div>
+                  <p className="text-slate-600 font-bold text-xs">
+                    لم يتم العثور على أي منتج يطابق الفلتر أو البحث المحدد.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setEditingProduct(null);
+                      setIsEditingProduct(true);
+                    }}
+                    className="px-4 py-2 bg-blue-950 text-white rounded-xl text-xs font-bold inline-flex items-center gap-1.5"
+                  >
+                    <Plus className="w-4 h-4 text-amber-400" />
+                    <span>إضافة صنف جديد بهذا الاسم</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-start">
+                    <thead>
+                      <tr className="border-b border-slate-200 text-slate-400 text-[11px]">
+                        <th className="py-3 text-start font-bold">صنف الدهان / الصورة</th>
+                        <th className="py-3 text-start font-bold">القسم والعلامة</th>
+                        <th className="py-3 text-start font-bold">الأحجام المتوفرة والأسعار</th>
+                        <th className="py-3 text-center font-bold">الصبغات</th>
+                        <th className="py-3 text-center font-bold">المخزون</th>
+                        <th className="py-3 text-end font-bold">السعر الأساسي</th>
+                        <th className="py-3 text-end font-bold">الإجراءات</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {filteredProducts.map((p) => (
+                        <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
+                          {/* Image & Title */}
+                          <td className="py-3.5">
+                            <div className="flex items-center gap-3">
+                              <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0 shadow-2xs">
+                                <img
+                                  src={p.image}
+                                  alt={p.nameAr}
+                                  className="w-full h-full object-cover"
+                                  referrerPolicy="no-referrer"
+                                />
+                                {p.isBestSeller && (
+                                  <span className="absolute top-0 end-0 bg-amber-400 text-[8px] font-black px-1 rounded-bl-md text-blue-950">
+                                    ★
+                                  </span>
+                                )}
+                              </div>
+                              <div className="min-w-0 max-w-[220px]">
+                                <p className="font-bold text-slate-900 leading-snug truncate" title={p.nameAr}>
+                                  {p.nameAr}
+                                </p>
+                                <p className="text-[10px] text-slate-400 truncate" title={p.nameEn}>
+                                  {p.nameEn}
+                                </p>
+                                <span className="text-[9px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.2 rounded mt-0.5 inline-block">
+                                  {p.id}
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Category & Brand */}
+                          <td className="py-3.5">
+                            <span className="px-2 py-0.5 rounded-lg bg-blue-50 text-blue-900 font-bold text-[10px] block w-fit mb-1">
+                              {p.categoryNameAr}
+                            </span>
+                            <span className="text-[11px] font-bold text-amber-700 block">
+                              {p.brand}
+                            </span>
+                          </td>
+
+                          {/* Sizes & Prices list */}
+                          <td className="py-3.5">
+                            <div className="flex flex-wrap gap-1 max-w-[200px]">
+                              {(p.sizes || []).map((sz, sIdx) => (
+                                <span
+                                  key={sIdx}
+                                  className={`px-1.5 py-0.5 rounded-md text-[10px] font-mono font-bold ${
+                                    sz.inStock ? 'bg-slate-100 text-slate-700' : 'bg-red-50 text-red-500 line-through'
+                                  }`}
+                                  title={`${sz.labelAr}: ${sz.price} ر.س`}
+                                >
+                                  {sz.size}: {sz.price} ر.س
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+
+                          {/* Colors Swatches */}
+                          <td className="py-3.5 text-center">
+                            {p.colors && p.colors.length > 0 ? (
+                              <div className="flex items-center justify-center -space-x-1 rtl:space-x-reverse" title={`${p.colors.length} درجات ألوان متوفرة`}>
+                                {p.colors.slice(0, 4).map((c, cIdx) => (
+                                  <div
+                                    key={cIdx}
+                                    className="w-4 h-4 rounded-full border border-white shadow-2xs"
+                                    style={{ backgroundColor: c.hex }}
+                                  />
+                                ))}
+                                {p.colors.length > 4 && (
+                                  <span className="text-[9px] font-bold text-slate-500 ms-1">
+                                    +{p.colors.length - 4}
+                                  </span>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-[10px] text-slate-400">-</span>
+                            )}
+                          </td>
+
+                          {/* Stock Status */}
+                          <td className="py-3.5 text-center font-mono">
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                p.stock > 10
+                                  ? 'bg-emerald-100 text-emerald-800'
+                                  : p.stock > 0
+                                  ? 'bg-amber-100 text-amber-800'
+                                  : 'bg-red-100 text-red-800'
+                              }`}
+                            >
+                              {p.stock > 0 ? `${p.stock} متوفر` : 'نفذت الكمية'}
+                            </span>
+                          </td>
+
+                          {/* Base Price */}
+                          <td className="py-3.5 text-end font-mono font-black text-blue-950 text-sm">
+                            {p.basePrice} <span className="text-[10px] font-sans font-bold text-slate-500">{t('currency')}</span>
+                          </td>
+
+                          {/* Actions */}
+                          <td className="py-3.5 text-end">
+                            <div className="flex items-center justify-end gap-1.5">
+                              {/* Edit */}
+                              <button
+                                onClick={() => {
+                                  setEditingProduct(p);
+                                  setIsEditingProduct(true);
+                                }}
+                                className="p-2 text-blue-900 hover:text-white bg-blue-50 hover:bg-blue-900 rounded-xl transition-all shadow-2xs"
+                                title="تعديل وتحديث بيانات الصنف"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" />
+                              </button>
+
+                              {/* Duplicate */}
+                              <button
+                                onClick={() => handleDuplicateProduct(p)}
+                                className="p-2 text-amber-700 hover:text-white bg-amber-50 hover:bg-amber-600 rounded-xl transition-all shadow-2xs"
+                                title="تكرار كصنف جديد"
+                              >
+                                <Copy className="w-3.5 h-3.5" />
+                              </button>
+
+                              {/* Delete */}
+                              <button
+                                onClick={() => handleDeleteProduct(p)}
+                                className="p-2 text-red-600 hover:text-white bg-red-50 hover:bg-red-600 rounded-xl transition-all shadow-2xs"
+                                title="حذف الصنف نهائياً"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Comprehensive Product Add / Edit Modal */}
+            <ProductEditorModal
+              isOpen={isEditingProduct}
+              product={editingProduct}
+              categories={categories}
+              onClose={() => {
+                setIsEditingProduct(false);
+                setEditingProduct(null);
+              }}
+              onSave={handleSaveProductFromModal}
+              language={language}
+            />
           </div>
         )}
 
